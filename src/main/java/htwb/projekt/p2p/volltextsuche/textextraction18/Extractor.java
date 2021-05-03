@@ -1,14 +1,23 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18;
 
+import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
 import htwb.projekt.p2p.volltextsuche.textextraction18.xml.XMLParser;
 
 public class Extractor {
 
 	public static void main(String[] args) {
 		System.out.println(outArgs(args));
-		//TODO verify args
+		XMLExtract extractedXML = null;
+		String extractedString = "";
 		for (String string : args) {
-			System.out.println(XMLParser.readXML(string).toString());
+			try {
+				extractedXML = XMLParser.readXML(string);
+				extractedString = extractedXML.toString();
+
+			} catch (Exception e) {
+				extractedString = "Can not load XML-File: " + string;
+			}
+			System.out.println(extractedString);
 		}
 //		String xmlParseString = XMLParser.readXML(null);
 //		System.out.println();
@@ -23,7 +32,7 @@ public class Extractor {
 			sb.append(" ");
 		}
 		String erg = sb.toString();
-		if(erg.isBlank()) {
+		if (erg.isBlank()) {
 			erg = "Nothing to read!";
 		}
 		return erg;

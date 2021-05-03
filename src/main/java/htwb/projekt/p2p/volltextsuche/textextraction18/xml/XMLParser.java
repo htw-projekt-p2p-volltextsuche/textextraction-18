@@ -19,7 +19,7 @@ public class XMLParser {
 		try {
 
 			// creating a constructor of file class and parsing an XML file
-			File file = new File(XMLParser.class.getResource("/" + filename).getPath());
+			File file = new File(filename);
 			// an instance of factory that gives a document builder
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			// an instance of builder to parse the specified xml file
@@ -27,7 +27,6 @@ public class XMLParser {
 			Document doc = db.parse(file);
 			return doc;
 		} catch (Exception e) {
-
 			return null;
 		}
 
@@ -43,14 +42,14 @@ public class XMLParser {
 			NodeList nodeList = doc.getDocumentElement().getElementsByTagName("*");
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node node = nodeList.item(i);
-				if(node.getNodeName().equalsIgnoreCase(TagNames.WAHLPERIODE.name())) {
+				if (node.getNodeName().equalsIgnoreCase(TagNames.WAHLPERIODE.name())) {
 					period = node.getTextContent();
 				}
-				if(node.getNodeName().equalsIgnoreCase(TagNames.DATUM.name())) {
-					 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+				if (node.getNodeName().equalsIgnoreCase(TagNames.DATUM.name())) {
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
 					date = LocalDate.parse(node.getTextContent(), formatter);
 				}
-				if(node.getNodeName().equalsIgnoreCase(TagNames.TEXT.name())) {
+				if (node.getNodeName().equalsIgnoreCase(TagNames.TEXT.name())) {
 					protocoll = node.getTextContent();
 				}
 			}

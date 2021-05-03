@@ -1,13 +1,14 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class XMLExtract {
 
 	private String period;
 	private LocalDate date;
 	private String protocoll;
-	
+
 	public XMLExtract(String period, LocalDate date, String protocoll) {
 		super();
 		this.period = period;
@@ -38,23 +39,25 @@ public class XMLExtract {
 	public void setProtocoll(String protocoll) {
 		this.protocoll = protocoll;
 	}
-	
+
 	public String getShortProtocoll(String protocoll) {
 		String[] shortProtocoll = protocoll.split(":");
-		//TODO remove linebreaks
+		// TODO remove linebreaks
 		return shortProtocoll[0];
 	}
-	
+
 	@Override
 	public String toString() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
+		String fDate = date.format(formatter);
+		String shortProtocoll = getShortProtocoll(protocoll);
 		StringBuilder sb = new StringBuilder();
 		sb.append("Wahlperiode: ").append(period);
 		sb.append(System.lineSeparator());
-		sb.append("Datum: ").append(date);
+		sb.append("Datum: ").append(fDate);
 		sb.append(System.lineSeparator());
-		sb.append("Protokollauszug: ").append(getShortProtocoll(protocoll));
+		sb.append("Protokollauszug: ").append(shortProtocoll);
 		return sb.toString();
 	}
-	
-	
+
 }
