@@ -1,6 +1,7 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
+import htwb.projekt.p2p.volltextsuche.textextraction18.search.SpeachSearch;
 import htwb.projekt.p2p.volltextsuche.textextraction18.xml.XMLParser;
 
 public class Extractor {
@@ -15,12 +16,12 @@ public class Extractor {
 				extractedString = extractedXML.toString();
 
 			} catch (Exception e) {
-				extractedString = "Can not load XML-File: " + string;
+				extractedString = "Can not load XML-File: " + string + "\n" + e.getMessage();
 			}
 			System.out.println(extractedString);
+			System.out.println("Text without Table of Contens");
+			System.out.println(SpeachSearch.deleteTableOfContents(extractedXML.getProtocoll()));
 		}
-//		String xmlParseString = XMLParser.readXML(null);
-//		System.out.println();
 
 	}
 

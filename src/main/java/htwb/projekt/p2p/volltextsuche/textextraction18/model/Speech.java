@@ -1,74 +1,89 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+import org.json.JSONObject;
 
 public class Speech {
-	private String person;
-	private String party;
-	private String period;
-	private LocalDate date;
-	private List<String> keywords;
-	private String speech;
-	
-	public Speech(String person, String party, String period, LocalDate date, List<String> keywords, String rede) {
-		this.person = person;
-		this.party = party;
-		this.period = period;
-		this.date = date;
-		this.keywords = keywords;
-		this.speech = rede;
+	private UUID uuid;
+	private String title;
+	private String speaker;
+	private String affiliation;
+	private String date;
+	private String text;
+
+	public Speech(String title, String speaker, String affiliation, LocalDate date, String text) {
+		this.uuid = UUID.randomUUID();
+		this.title = title;
+		this.speaker = speaker;
+		this.affiliation = affiliation;
+		this.date = formatDateToISO8601String(date);
+		this.text = text;
 	}
 
-	public String getPerson() {
-		return person;
+	private String formatDateToISO8601String(LocalDate date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");		
+		return date.format(formatter);
 	}
 
-	public void setPerson(String person) {
-		this.person = person;
+	public UUID getId() {
+		return uuid;
 	}
 
-	public String getParty() {
-		return party;
+	public void setId(UUID id) {
+		this.uuid = id;
 	}
 
-	public void setParty(String party) {
-		this.party = party;
+	public String getTitle() {
+		return title;
 	}
 
-	public String getPeriod() {
-		return period;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public void setPeriod(String period) {
-		this.period = period;
+	public String getSpeaker() {
+		return speaker;
 	}
 
-	public LocalDate getDate() {
+	public void setSpeaker(String speaker) {
+		this.speaker = speaker;
+	}
+
+	public String getAffiliation() {
+		return affiliation;
+	}
+
+	public void setAffiliation(String affiliation) {
+		this.affiliation = affiliation;
+	}
+
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
-	public List<String> getKeywords() {
-		return keywords;
+	public String getText() {
+		return text;
 	}
 
-	public void setKeywords(List<String> keywords) {
-		this.keywords = keywords;
+	public void setText(String text) {
+		this.text = text;
 	}
 
-	public String getRede() {
-		return speech;
+	public void toJSON() {
+		JSONObject json = new JSONObject();
+		json.append("id", uuid);
+		json.append("title", title);
+		json.append("speaker", speaker);
+		json.append("affiliation", affiliation);
+		json.append("date", date);
+		json.append("text", text);
+
 	}
 
-	public void setRede(String rede) {
-		this.speech = rede;
-	}
-	
-	
-	
-	
 }

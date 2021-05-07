@@ -48,13 +48,11 @@ public class XMLExtract {
 
 	@Override
 	public String toString() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
-		String fDate = date.format(formatter);
 		String shortProtocoll = getShortProtocoll(protocoll);
 		StringBuilder sb = new StringBuilder();
 		sb.append("Wahlperiode: ").append(period);
 		sb.append(System.lineSeparator());
-		sb.append("Datum: ").append(fDate);
+		sb.append("Datum: ").append(date.toString());
 		sb.append(System.lineSeparator());
 		sb.append("Protokollauszug: ").append(shortProtocoll);
 		return sb.toString();
