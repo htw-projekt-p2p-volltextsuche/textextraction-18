@@ -1,5 +1,10 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18;
 
+import java.time.LocalDate;
+
+import htwb.projekt.p2p.volltextsuche.textextraction18.misc.FileWirter;
+import htwb.projekt.p2p.volltextsuche.textextraction18.misc.RegexPattern;
+import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speach;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
 import htwb.projekt.p2p.volltextsuche.textextraction18.search.SpeachSearch;
 import htwb.projekt.p2p.volltextsuche.textextraction18.xml.XMLParser;
@@ -18,9 +23,16 @@ public class Extractor {
 			} catch (Exception e) {
 				extractedString = "Can not load XML-File: " + string + "\n" + e.getMessage();
 			}
-			System.out.println(extractedString);
-			System.out.println("Text without Table of Contens");
-			System.out.println(SpeachSearch.deleteTableOfContents(extractedXML.getProtocoll()));
+			String presidentTitleofSpeach = "Er\u00f6ffnungsrede";
+			String presidentName = SpeachSearch.searchPresidentName(extractedXML.getProtocoll());
+			String presidentAffiliation = SpeachSearch.searchPresidentAffiliation(extractedXML.getProtocoll());
+			LocalDate presidentSpeachDate = extractedXML.getDate();
+			String presidentSpeachTextSplit = presidentAffiliation + " " + presidentName + ":";
+			String presidentSpeachText = SpeachSearch.searchPresidentText(extractedXML.getProtocoll());
+
+			Speach presidentSpeach = new Speach(presidentTitleofSpeach, presidentName, presidentAffiliation,
+					presidentSpeachDate, presidentSpeachText);
+			FileWirter.write(presidentSpeach.toJSON(), presidentSpeachDate.toString());
 		}
 
 	}

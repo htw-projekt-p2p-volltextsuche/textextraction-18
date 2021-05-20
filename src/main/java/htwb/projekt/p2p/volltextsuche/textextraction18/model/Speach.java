@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import org.json.JSONObject;
 
-public class Speech {
+public class Speach {
 	private UUID uuid;
 	private String title;
 	private String speaker;
@@ -13,7 +13,7 @@ public class Speech {
 	private String date;
 	private String text;
 
-	public Speech(String title, String speaker, String affiliation, LocalDate date, String text) {
+	public Speach(String title, String speaker, String affiliation, LocalDate date, String text) {
 		this.uuid = UUID.randomUUID();
 		this.title = title;
 		this.speaker = speaker;
@@ -23,7 +23,7 @@ public class Speech {
 	}
 
 	private String formatDateToISO8601String(LocalDate date) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");		
 		return date.format(formatter);
 	}
 
@@ -75,15 +75,15 @@ public class Speech {
 		this.text = text;
 	}
 
-	public void toJSON() {
+	public JSONObject toJSON() {
 		JSONObject json = new JSONObject();
-		json.append("id", uuid);
-		json.append("title", title);
-		json.append("speaker", speaker);
-		json.append("affiliation", affiliation);
-		json.append("date", date);
-		json.append("text", text);
-
+		json.put("id", uuid);
+		json.put("title", title);
+		json.put("speaker", speaker);
+		json.put("affiliation", affiliation);
+		json.put("date", date);
+		json.put("text", text);
+		return json;
 	}
 
 }

@@ -1,7 +1,6 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class XMLExtract {
 
