@@ -1,0 +1,48 @@
+SET DATABASE UNIQUE NAME HSQLDB79A7E572A0
+SET DATABASE GC 0
+SET DATABASE DEFAULT RESULT MEMORY ROWS 0
+SET DATABASE EVENT LOG LEVEL 0
+SET DATABASE TRANSACTION CONTROL LOCKS
+SET DATABASE DEFAULT ISOLATION LEVEL READ COMMITTED
+SET DATABASE TRANSACTION ROLLBACK ON CONFLICT TRUE
+SET DATABASE TEXT TABLE DEFAULTS ''
+SET DATABASE SQL NAMES FALSE
+SET DATABASE SQL REFERENCES FALSE
+SET DATABASE SQL SIZE TRUE
+SET DATABASE SQL TYPES FALSE
+SET DATABASE SQL TDC DELETE TRUE
+SET DATABASE SQL TDC UPDATE TRUE
+SET DATABASE SQL CONCAT NULLS TRUE
+SET DATABASE SQL UNIQUE NULLS TRUE
+SET DATABASE SQL CONVERT TRUNCATE TRUE
+SET DATABASE SQL AVG SCALE 0
+SET DATABASE SQL DOUBLE NAN TRUE
+SET FILES WRITE DELAY 500 MILLIS
+SET FILES BACKUP INCREMENT TRUE
+SET FILES CACHE SIZE 10000
+SET FILES CACHE ROWS 50000
+SET FILES SCALE 32
+SET FILES LOB SCALE 32
+SET FILES DEFRAG 0
+SET FILES NIO TRUE
+SET FILES NIO SIZE 256
+SET FILES LOG TRUE
+SET FILES LOG SIZE 50
+SET FILES CHECK 530
+SET DATABASE COLLATION "SQL_TEXT" PAD SPACE
+CREATE USER "SteSad" PASSWORD DIGEST 'cf3e424f19fe41312bf724b5acd12f16'
+ALTER USER "SteSad" SET LOCAL TRUE
+CREATE SCHEMA PUBLIC AUTHORIZATION DBA
+CREATE MEMORY TABLE PUBLIC.SPEACH(ID BINARY(255) NOT NULL PRIMARY KEY,AFFILIATION VARCHAR(255),DATE VARCHAR(255),SPEAKER VARCHAR(255),TEXT VARCHAR(16777216),TITLE VARCHAR(16777216))
+ALTER SEQUENCE SYSTEM_LOBS.LOB_ID RESTART WITH 1
+SET DATABASE DEFAULT INITIAL SCHEMA PUBLIC
+GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.CARDINAL_NUMBER TO PUBLIC
+GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.YES_OR_NO TO PUBLIC
+GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.CHARACTER_DATA TO PUBLIC
+GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.SQL_IDENTIFIER TO PUBLIC
+GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.TIME_STAMP TO PUBLIC
+GRANT DBA TO "SteSad"
+SET SCHEMA SYSTEM_LOBS
+INSERT INTO BLOCKS VALUES(0,2147483647,0)
+SET SCHEMA PUBLIC
+INSERT INTO SPEACH VALUES('0ba1f00d3713487198bf1786017aedc60000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000','Pr\u00e4sident','2013-11-28',' Dr. Norbert Lammert','\u000a\u000aLiebe Kolleginnen und Kollegen! Bevor wir in unsere\u000aTagesordnung eintreten, bitte ich Sie, sich von den Pl\u00e4t-\u000azen zu erheben.\u000a\u000aDer Deutsche Bundestag trauert um sein ehemaliges\u000aMitglied Dieter-Julius Cronenberg, der heute vor einer\u000aWoche, am 21. November, gestorben ist. Dieter-Julius\u000aCronenberg war fast zwei Jahrzehnte lang unser Kollege.\u000aEr geh\u00f6rte dem Deutschen Bundestag von 1976 bis 1994\u000aan. Seine politische Heimat fand er in der FDP, in der er\u000asich ab 1961 engagierte, zun\u00e4chst auf kommunaler\u000aEbene, dann als Mitglied des Bundestages in Bonn.\u000a\u000aVerantwortung hat Dieter-Julius Cronenberg fr\u00fch\u000a\u00fcbernommen \u2013 nicht nur politisch, sondern auch als Un-\u000aternehmer. Er f\u00fchrte in Arnsberg ein mittelst\u00e4ndisches\u000aFamilienunternehmen, das inzwischen auf eine \u00fcber\u000a300-j\u00e4hrige Geschichte zur\u00fcckblicken kann. Er war sich\u000adabei immer bewusst, dass unternehmerischer Erfolg zu-\u000agleich auch bedeutet, soziale und gesellschaftliche Ver-\u000aantwortung f\u00fcr die Menschen, f\u00fcr die Stadt und f\u00fcr das\u000aLand zu \u00fcbernehmen, in dem das Unternehmen erfolg-\u000areich agieren kann.\u000a\u000aVielleicht erkl\u00e4rt sich aus dieser Einstellung heraus\u000aauch sein ausgepr\u00e4gtes Interesse an Themen wie der So-\u000azialpolitik, insbesondere der Alterssicherung. An den\u000aRentenreformen der damaligen Zeit hat er ma\u00dfgeblich\u000amitgewirkt. Gerade auf diesen Gebieten war er ein aner-\u000akannter Experte seiner Fraktion und ein bei den Kolle-\u000aginnen und Kollegen der anderen Fraktionen gesch\u00e4tzter\u000aFachmann. Mit dieser Fachkompetenz hat er zu vielen\u000asozialpolitischen Entscheidungen f\u00fcr unser Land bei-\u000agetragen.\u000a\u000aFast zehn Jahre lang war Dieter-Julius Cronenberg\u000aVizepr\u00e4sident des Deutschen Bundestages. Dieses hohe\u000aAmt f\u00fcllte er souver\u00e4n und \u00fcberparteilich aus. Er stellte\u000aseine gro\u00dfe Erfahrung in den Dienst unseres Parlamen-\u000ates. Ihm geb\u00fchren unser Respekt und unsere Dankbar-\u000akeit f\u00fcr alles, was er in diesem Haus, f\u00fcr dieses Parla-\u000ament und f\u00fcr unsere Demokratie \u00fcber viele Jahre hinweg\u000ageleistet hat.\u000aWir werden ihm ein ehrendes Andenken bewahren.\u000a\u000aSeiner Witwe, seinen Kindern und allen Angeh\u00f6rigen\u000aspreche ich im Namen des ganzen Hauses unsere Anteil-\u000anahme aus.\u000a\u000aIch danke Ihnen.\u000a\u000aLiebe Kolleginnen und Kollegen, ich m\u00f6chte Ihnen\u000amitteilen, dass interfraktionell vereinbart worden ist, den\u000aAntrag der Fraktion B\u00fcndnis 90/Die Gr\u00fcnen mit dem\u000aTitel \u201eEinsetzung von Aussch\u00fcssen\u201c als Zusatzpunkt 1\u000aaufzunehmen, zusammen mit Tagesordnungspunkt 1\u000aaufzurufen und diesen damit verbundenen Tagesord-\u000anungspunkt mit einer Redezeit von jeweils f\u00fcnf Minuten\u000apro Fraktion zu debattieren.\u000a\u000aNach dem Tagesordnungspunkt 6 soll dar\u00fcber hinaus\u000aals Zusatzpunkt 2 eine vereinbarte Debatte zum vorl\u00e4u-\u000afigen Atomabkommen mit dem Iran im Umfang von\u000a30 Minuten stattfinden.\u000a\u000aSchlie\u00dflich soll der Tagesordnungspunkt 13 abgesetzt\u000aund stattdessen der Antrag der Fraktion B\u00fcndnis 90/Die\u000aGr\u00fcnen mit dem Titel \u201eOperation Active Endeavour be-\u000aenden\u201c als Zusatzpunkt 3 aufgerufen werden.\u000a\u000aSind Sie damit einverstanden? \u2013 Ich sehe keinen Wi-\u000aderspruch. Dann ist das so beschlossen.\u000a\u000aWir kommen damit zu Tagesordnungspunkt 1 mit\u000adem gerade vereinbarten Zusatzpunkt 1:\u000a\u000a1 Beratung des Antrags der Fraktionen der CDU/\u000aCSU und SPD\u000a\u000aEinsetzung eines Hauptausschusses\u000a\u000a\u2013 Drucksache 18/101 \u2013\u000a\u000aZP 1 Beratung des Antrags der Fraktion B\u00dcND-\u000aNIS 90/DIE GR\u00dcNEN\u000a\u000aEinsetzung von Aussch\u00fcssen\u000a\u000a\u2013 Drucksache 18/102 \u2013\u000a\u000aInterfraktionell ist eine Diskussionsrunde mit Beitr\u00e4-\u000agen von jeweils f\u00fcnf Minuten vereinbart worden. \u2013 Da-\u000a\u000a76 Deutscher Bundestag \u2013 18. Wahlperiode \u2013 3. Sitzung. Berlin, Donnerstag, den 28. November 2013\u000a\u000aPr\u00e4sident Dr. Norbert Lammert\u000a\u000a(A) (C)\u000a\u000a(D)(B)\u000ar\u00fcber besteht offenkundig Einvernehmen, also k\u00f6nnen\u000awir so verfahren.\u000a\u000aIch erteile das Wort dem Kollegen Michael Grosse-\u000aBr\u00f6mer f\u00fcr die CDU/CSU-Fraktion.\u000a\u000a','Er\u00f6ffnungsrede')

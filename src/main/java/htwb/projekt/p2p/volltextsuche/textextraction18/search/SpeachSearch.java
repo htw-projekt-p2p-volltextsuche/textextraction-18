@@ -24,14 +24,17 @@ public class SpeachSearch {
 	
 	public static String searchPresidentText(String text) {
 		String presidentText = splitProtocoll(text)[1].split("Die Sitzung ist er\u00f6ffnet.")[1];
-		System.out.println(splitProtocoll(text)[1].split("Die Sitzung ist er\u00f6ffnet.")[0]);
 		return presidentText.split(RegexPattern.PRESIDENT_BREAKPOINT.pattern)[0];
 	}
 	
 	public static String searchPresidentPostText(String text) {
 		String presidentText = splitProtocoll(text)[1].split("Die Sitzung ist er\u00f6ffnet.")[1];
-		System.out.println(splitProtocoll(text)[1].split("Die Sitzung ist er\u00f6ffnet.")[0]);
-		return presidentText.split(RegexPattern.PRESIDENT_BREAKPOINT.pattern)[1];
+		String[] postText = presidentText.split(RegexPattern.PRESIDENT_BREAKPOINT.pattern);
+		String erg = "";
+		for (int i = 1; i < postText.length; i++) {
+			erg += postText[i];
+		}
+		return erg;
 	}
 	
 	public static String searchSpeachSnippet(String text) {

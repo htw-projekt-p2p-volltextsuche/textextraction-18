@@ -41,7 +41,6 @@ public class XMLExtract {
 
 	public String getShortProtocoll(String protocoll) {
 		String[] shortProtocoll = protocoll.split(":");
-		// TODO remove linebreaks
 		return shortProtocoll[0];
 	}
 

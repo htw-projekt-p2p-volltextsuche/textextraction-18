@@ -1,9 +1,9 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
-import htwb.projekt.p2p.volltextsuche.textextraction18.misc.FileWirter;
-import htwb.projekt.p2p.volltextsuche.textextraction18.misc.RegexPattern;
+import htwb.projekt.p2p.volltextsuche.textextraction18.misc.Service;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speach;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
 import htwb.projekt.p2p.volltextsuche.textextraction18.search.SpeachSearch;
@@ -13,15 +13,16 @@ public class Extractor {
 
 	public static void main(String[] args) {
 		System.out.println(outArgs(args));
+		Service service = new Service();
 		XMLExtract extractedXML = null;
 		String extractedString = "";
-		for (String string : args) {
+		for (int i = 0; i < args.length; i++) {
 			try {
-				extractedXML = XMLParser.readXML(string);
+				extractedXML = XMLParser.readXML(args[i]);
 				extractedString = extractedXML.toString();
 
 			} catch (Exception e) {
-				extractedString = "Can not load XML-File: " + string + "\n" + e.getMessage();
+				extractedString = "Can not load XML-File: " + args[i] + "\n" + e.getMessage();
 			}
 			String presidentTitleofSpeach = "Er\u00f6ffnungsrede";
 			String presidentName = SpeachSearch.searchPresidentName(extractedXML.getProtocoll());
@@ -30,11 +31,19 @@ public class Extractor {
 			String presidentSpeachTextSplit = presidentAffiliation + " " + presidentName + ":";
 			String presidentSpeachText = SpeachSearch.searchPresidentText(extractedXML.getProtocoll());
 
-			Speach presidentSpeach = new Speach(presidentTitleofSpeach, presidentName, presidentAffiliation,
-					presidentSpeachDate, presidentSpeachText);
-			FileWirter.write(presidentSpeach.toJSON(), presidentSpeachDate.toString());
+			Speach speach = new Speach();
+			speach.setTitle(presidentTitleofSpeach);
+			speach.setSpeaker(presidentName);
+			speach.setAffiliation(presidentAffiliation);
+			speach.setDate(presidentSpeachDate);
+			speach.setText(presidentSpeachText);
+			
+			
+			UUID speachID = service.save(speach);
+			System.out.println(service.getAll());
+			//TODO extract the others
+//			String postString = SpeachSearch.searchPresidentPostText(extractedXML.getProtocoll());
 		}
-
 	}
 
 	private static String outArgs(String[] args) {
