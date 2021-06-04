@@ -8,27 +8,28 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Nationalized;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import htwb.projekt.p2p.volltextsuche.textextraction18.misc.RegexPattern;
 
 @Entity
 @Table(name = "speach")
 public class Speach {
 
 	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@GeneratedValue
+    @Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column
-	@Type(type="text")
+	@Type(type = "text")
 	private String title;
 
 	@Column
@@ -41,7 +42,7 @@ public class Speach {
 	private String date;
 
 	@Column
-	@Type(type="text")
+	@Type(type = "text")
 	private String text;
 
 	public Speach() {
@@ -59,7 +60,7 @@ public class Speach {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return date.format(formatter);
 	}
-	
+
 	public UUID getId() {
 		return id;
 	}
@@ -102,6 +103,7 @@ public class Speach {
 	}
 
 	public void setText(String text) {
+		text = prettyUpText(text);
 		this.text = text;
 	}
 
@@ -115,6 +117,12 @@ public class Speach {
 			return null;
 		}
 	}
-	
-	
+
+	private String prettyUpText(String text) {
+		text = text.replaceAll(RegexPattern.TWO_LINEBREAKS.pattern, " ");
+		text = text.replaceAll("(.)-\n(.)", "$1$2");
+		text = text.replaceAll("(.)\n(.)", "$1 $2");
+		return text;
+	}
+
 }

@@ -40,9 +40,10 @@ public class Extractor {
 			
 			
 			UUID speachID = service.save(speach);
-			System.out.println(service.getAll());
+//			System.out.println(service.getAll());
+			service.getAllAsList().forEach(x -> System.out.println(x.toString()));
 			//TODO extract the others
-//			String postString = SpeachSearch.searchPresidentPostText(extractedXML.getProtocoll());
+			String postString = SpeachSearch.searchPresidentPostText(extractedXML.getProtocoll());
 		}
 	}
 

@@ -8,7 +8,9 @@ import org.hibernate.Transaction;
 
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speach;
 import htwb.projekt.p2p.volltextsuche.textextraction18.util.HibernateUtil;
@@ -33,21 +35,23 @@ public class Service {
 		return speach.getId();
 	}
 
-	//TODO change return as JSONArray
-	public String getAll() {
+	public ArrayNode getAllAsJSON() {
 		Transaction transaction = session.beginTransaction();
-		List<Speach> list = session.createQuery("from Speach", Speach.class).list();
-		StringBuilder sb = new StringBuilder();
-		sb.append("[\n");
+		List<Speach> list = session.createQuery("from Speach", Speach.class).list();		
+		ArrayNode array = mapper.createArrayNode();
+		
 		for (int i = 0; i < list.size(); i++) {
-			if (i == list.size() - 1) {
-				sb.append(list.get(i)).append("\n]");
-			} else {
-				sb.append(list.get(i)).append(",").append(System.lineSeparator());
-			}
+				array.add(mapper.convertValue(list.get(i), JsonNode.class));
 		}
 		transaction.commit();
-		return sb.toString();
+		return array;
+	}
+	
+	public List<Speach> getAllAsList() {
+		Transaction transaction = session.beginTransaction();
+		List<Speach> list = session.createQuery("from Speach", Speach.class).list();		
+		transaction.commit();
+		return list;
 	}
 
 }

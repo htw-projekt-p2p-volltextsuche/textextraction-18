@@ -3,6 +3,9 @@ package htwb.projekt.p2p.volltextsuche.textextraction18.xml;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,7 +17,9 @@ import org.w3c.dom.NodeList;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
 
 public class XMLParser {
-
+	private static final Logger LOG = Logger.getLogger(XMLParser.class.getName());
+	
+	
 	private static Document stringFilenameToDoc(String filename) {
 		try {
 
@@ -42,6 +47,7 @@ public class XMLParser {
 			NodeList nodeList = doc.getDocumentElement().getElementsByTagName("*");
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node node = nodeList.item(i);
+				
 				if (node.getNodeName().equalsIgnoreCase(TagNames.WAHLPERIODE.name())) {
 					period = node.getTextContent();
 				}
