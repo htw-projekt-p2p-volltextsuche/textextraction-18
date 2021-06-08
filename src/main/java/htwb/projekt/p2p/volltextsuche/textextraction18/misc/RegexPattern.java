@@ -7,6 +7,7 @@ public enum RegexPattern {
 	PRESIDENT("(?<=((Vize|Alters)?(P|p)r\u00e4sident(en|in|innen)?))"),
 	SPEACH_BEGIN("\\):"),
 	EOT("Die Sitzung ist geschlossen."),
+	TOC_NAMES("\\d\\s[A-Z]\\n+"),
 	TWO_LINEBREAKS(System.lineSeparator()+System.lineSeparator());
 	public final String pattern;
 	

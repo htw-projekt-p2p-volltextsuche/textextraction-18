@@ -1,6 +1,8 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.misc.Service;
@@ -41,9 +43,19 @@ public class Extractor {
 			
 			UUID speachID = service.save(speach);
 //			System.out.println(service.getAll());
-			service.getAllAsList().forEach(x -> System.out.println(x.toString()));
+//			service.getAllAsList().forEach(x -> System.out.println(x.toString()));
 			//TODO extract the others
-			String postString = SpeachSearch.searchPresidentPostText(extractedXML.getProtocoll());
+//			String postString = SpeachSearch.searchPresidentPostText(extractedXML.getProtocoll());
+			
+			//Extract Title & Speaker
+			String[] toc = SpeachSearch.getToc(extractedXML.getProtocoll());
+			List<String> agenda = SpeachSearch.getAgenda(toc);
+			for (int j = 0; j < agenda.size(); j++) {
+				System.out.println(j+":"+agenda.get(j));
+			}
+			//TODO concat 2 agenda items by "in Verbindung mit"
+			//TODO pretty up Titls
+			//TODO SpeachSearch.getPersons(toc) <- may the other toc entries?
 		}
 	}
 
