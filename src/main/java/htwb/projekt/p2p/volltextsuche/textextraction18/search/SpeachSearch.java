@@ -6,17 +6,33 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import htwb.projekt.p2p.volltextsuche.textextraction18.misc.RegexPattern;
+import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 
 public class SpeachSearch {
 
 	private static final Logger LOG = Logger.getLogger(SpeachSearch.class.getName());
 
-	public static String[] getToc(String text) {
+	public static String[] getAgendaItems(String text) {
 		text = splitProtocoll(text)[0];
 		String[] arr = text.split(RegexPattern.TOC_NAMES.pattern);
 		arr = Arrays.copyOfRange(arr, 0, arr.length - 1);
+		arr = concatAgendaItems(arr);
 		return arr;
+	}
+	
+	
+	private static String[] concatAgendaItems(String[] toc) {
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < toc.length; i++) {
+			if(toc[i].contains("in Verbindung mit")) {
+				if(i-1 > 0) {
+					if(list.contains(toc[i-1])) list.remove(toc[i-1]);
+					list.add(toc[i-1]+toc[i]);
+				}
+			} else list.add(toc[i]);
+			
+		}
+		return list.toArray(new String[list.size()]);
 	}
 
 	public static List<String> getAgenda(String[] toc) {

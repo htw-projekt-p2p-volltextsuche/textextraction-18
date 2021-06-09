@@ -17,7 +17,7 @@ import org.hibernate.annotations.Type;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import htwb.projekt.p2p.volltextsuche.textextraction18.misc.RegexPattern;
+import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 
 @Entity
 @Table(name = "speach")

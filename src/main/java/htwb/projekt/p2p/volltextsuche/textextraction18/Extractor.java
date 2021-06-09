@@ -26,7 +26,7 @@ public class Extractor {
 			} catch (Exception e) {
 				extractedString = "Can not load XML-File: " + args[i] + "\n" + e.getMessage();
 			}
-			String presidentTitleofSpeach = "Er\u00f6ffnungsrede";
+			String presidentTitleofSpeach = "Eröffnungsrede";
 			String presidentName = SpeachSearch.searchPresidentName(extractedXML.getProtocoll());
 			String presidentAffiliation = SpeachSearch.searchPresidentAffiliation(extractedXML.getProtocoll());
 			LocalDate presidentSpeachDate = extractedXML.getDate();
@@ -42,19 +42,17 @@ public class Extractor {
 			
 			
 			UUID speachID = service.save(speach);
-//			System.out.println(service.getAll());
 //			service.getAllAsList().forEach(x -> System.out.println(x.toString()));
 			//TODO extract the others
 //			String postString = SpeachSearch.searchPresidentPostText(extractedXML.getProtocoll());
 			
 			//Extract Title & Speaker
-			String[] toc = SpeachSearch.getToc(extractedXML.getProtocoll());
+			String[] toc = SpeachSearch.getAgendaItems(extractedXML.getProtocoll());
 			List<String> agenda = SpeachSearch.getAgenda(toc);
 			for (int j = 0; j < agenda.size(); j++) {
 				System.out.println(j+":"+agenda.get(j));
 			}
-			//TODO concat 2 agenda items by "in Verbindung mit"
-			//TODO pretty up Titls
+			//TODO pretty up Titles
 			//TODO SpeachSearch.getPersons(toc) <- may the other toc entries?
 		}
 	}
