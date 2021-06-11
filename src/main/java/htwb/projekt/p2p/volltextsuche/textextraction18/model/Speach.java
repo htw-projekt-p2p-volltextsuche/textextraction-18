@@ -8,10 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -119,7 +117,7 @@ public class Speach {
 	}
 
 	private String prettyUpText(String text) {
-		text = text.replaceAll(RegexPattern.TWO_LINEBREAKS.pattern, " ");
+		text = text.replaceAll(RegexPattern.TWO_LINEBREAKS.pattern.pattern(), " ");
 		text = text.replaceAll("(.)-\n(.)", "$1$2");
 		text = text.replaceAll("(.)\n(.)", "$1 $2");
 		return text;

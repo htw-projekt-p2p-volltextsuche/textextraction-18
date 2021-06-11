@@ -6,5 +6,7 @@ htwb/projekt/p2p/volltextsuche/textextraction18/enums/Affiliation.class
 htwb/projekt/p2p/volltextsuche/textextraction18/model/XMLExtract.class
 htwb/projekt/p2p/volltextsuche/textextraction18/model/Speach.class
 htwb/projekt/p2p/volltextsuche/textextraction18/Extractor.class
+htwb/projekt/p2p/volltextsuche/textextraction18/model/TitlePersonMap.class
 htwb/projekt/p2p/volltextsuche/textextraction18/search/SpeachSearch.class
+htwb/projekt/p2p/volltextsuche/textextraction18/model/Person.class
 htwb/projekt/p2p/volltextsuche/textextraction18/xml/XMLParser.class
