@@ -2,8 +2,8 @@ package htwb.projekt.p2p.volltextsuche.textextraction18.search;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
@@ -29,8 +29,7 @@ public class SpeachSearch {
 		return map;
 	}
 
-	// FIXME public for testing
-	public String[] getAgendaItems(String text) {
+	private String[] getAgendaItems(String text) {
 		text = splitProtocoll(text)[0];
 		String[] arr = RegexPattern.TOC_NAMES.pattern.split(text);
 		arr = Arrays.copyOfRange(arr, 0, arr.length - 1);
@@ -64,7 +63,6 @@ public class SpeachSearch {
 		return list;
 	}
 
-	// FIXME
 	public TitlePersonMap createMap(String[] toc) {
 		int i, j;
 		for (i = 0; i < toc.length; i++) {
@@ -88,7 +86,8 @@ public class SpeachSearch {
 											}
 										}
 									}
-									map.addToMap(toc[i], personlist);
+									String title = addOrderString(toc[i], i);
+									map.addToMap(title, personlist);
 									i = j-1;
 									j = toc.length - 1;
 									continue;
@@ -120,6 +119,17 @@ public class SpeachSearch {
 		} else
 			return null;
 
+	}
+	
+	private String addOrderString(String title, int index) {
+		if(index < 10) {
+			title = "000"+index+" "+title;
+		} else if(index >=10 && index <100) {
+			title = "00"+index+" "+title;
+		} else if(index >=100 && index <1000) {
+			title = "0"+index+" "+title;
+		}			
+		return title;
 	}
 
 	public String[] splitProtocoll(String text) {
@@ -173,7 +183,8 @@ public class SpeachSearch {
 	
 	public List<Speach> createSpeachListFromMap(TitlePersonMap titlePersonMap, String text){
 		List<Speach> speachList = null;
-		HashMap<String, ArrayList<Person>> map = titlePersonMap.getMap();
+		TreeMap<String, ArrayList<Person>> map = titlePersonMap.getMap();
+		
 		return speachList;
 	}
 }

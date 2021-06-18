@@ -3,7 +3,7 @@ package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.logging.Level;
+import java.util.TreeMap;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 
@@ -12,15 +12,15 @@ import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
  *
  */
 public class TitlePersonMap {
-	private HashMap<String, ArrayList<Person>> map;
+	private TreeMap<String, ArrayList<Person>> map;
 	private ArrayList<Person> personList;
 
 	public TitlePersonMap() {
-		this.map = new HashMap<String, ArrayList<Person>>();
+		this.map = new TreeMap<String, ArrayList<Person>>();
 		this.personList = new ArrayList<Person>();
 	}
 	
-	public TitlePersonMap(HashMap<String, ArrayList<Person>> map) {
+	public TitlePersonMap(TreeMap<String, ArrayList<Person>> map) {
 		this.map = map;
 	}
 
@@ -40,7 +40,7 @@ public class TitlePersonMap {
 		}
 	}
 
-	public HashMap<String, ArrayList<Person>> getMap() {
+	public TreeMap<String, ArrayList<Person>> getMap() {
 		return map;
 	}
 
@@ -56,7 +56,7 @@ public class TitlePersonMap {
 	
 	public TitlePersonMap clearEmptyEntries() {
 		TitlePersonMap outputMap = new TitlePersonMap();
-		HashMap<String, ArrayList<Person>> inputMap = this.getMap();
+		TreeMap<String, ArrayList<Person>> inputMap = this.getMap();
 		for (Entry<String, ArrayList<Person>> entry : inputMap.entrySet()) {
 			if(entry.getValue() != null) {
 					if(!entry.getValue().isEmpty()) {
@@ -69,7 +69,7 @@ public class TitlePersonMap {
 	
 	public TitlePersonMap prettyUpEntries() {
 		TitlePersonMap outputMap = new TitlePersonMap();
-		HashMap<String, ArrayList<Person>> inputMap = this.getMap();
+		TreeMap<String, ArrayList<Person>> inputMap = this.getMap();
 		for (Entry<String, ArrayList<Person>> entry : inputMap.entrySet()) {
 			String title = entry.getKey();
 			title = prettyUpTitle(title);
