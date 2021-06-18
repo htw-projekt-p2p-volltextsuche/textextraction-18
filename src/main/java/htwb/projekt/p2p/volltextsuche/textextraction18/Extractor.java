@@ -41,23 +41,9 @@ public class Extractor {
 			speach.setText(presidentSpeachText);
 
 			UUID speachID = service.save(speach);
-//			service.getAllAsList().forEach(x -> System.out.println(x.toString()));
-			// TODO extract the others
-//			String postString = SpeachSearch.searchPresidentPostText(extractedXML.getProtocoll());
-
-			// Extract Title & Speaker
-//			String[] toc = speach.getAgendaItems(extractedXML.getProtocoll());
-//			List<String> agenda = SpeachSearch.getAgenda(toc);
-//			for (int j = 0; j < agenda.size(); j++) {
-//				System.out.println(j+":"+agenda.get(j));
-//			}
-			// TODO pretty up Titles
-			// TODO SpeachSearch.getPersons(toc) <- may the other toc entries?
-//			String[] toc = search.getAgendaItems(extractedXML.getProtocoll());
-//			for (int j = 0; j < toc.length; j++) {
-//				System.out.println(j + " " + toc[j]);
-//			}
 			TitlePersonMap map = search.getMap(extractedXML.getProtocoll());
+			map = map.clearEmptyEntries();
+			map = map.prettyUpEntries();
 			System.out.println(map);
 		}
 	}

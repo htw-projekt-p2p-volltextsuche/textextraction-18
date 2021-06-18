@@ -1,16 +1,14 @@
 package test;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
-import htwb.projekt.p2p.volltextsuche.textextraction18.model.TitlePersonMap;
 import htwb.projekt.p2p.volltextsuche.textextraction18.search.SpeachSearch;
 
 class RegexTest {
@@ -45,17 +43,42 @@ class RegexTest {
 		assert (RegexPattern.PERSON.pattern.matcher(namewith).find());
 		assert (RegexPattern.PERSON.pattern.matcher(gruen).find());
 		assert (RegexPattern.PERSON.pattern.matcher(minister).find());
+		assert (RegexPattern.TOC_NAMES.pattern.matcher(punkt).find());
 
 	}
 
 	@Test
 	void testCreateMap() {
 		String[] strings = RegexPattern.TOC_NAMES.pattern.split(punkt);
+		assert (strings.length > 0);
 		ArrayList<String> names = new ArrayList<String>();
 		for (int j = 0; j < strings.length; j++) {
 			if (RegexPattern.PERSON.pattern.matcher(strings[j]).find()) {
 				names.add(strings[j]);
 			}
 		}
+		assert (names.isEmpty() == false);
+	}
+
+	@Test
+	void testDrucksacheRegex() {
+		String[] strings = RegexPattern.TOC_NAMES.pattern.split(punkt);
+		assert (strings.length > 0);
+//		LOG.log(Level.INFO, stringArrayToString(strings));
+		Pattern drucksache = Pattern.compile("\\r*\\n*.*Drucksache");
+		for (int i = 0; i < strings.length; i++) {
+			if(drucksache.matcher(strings[i]).find()) {
+				LOG.log(Level.INFO, drucksache.split(strings[i])[0]);
+			}
+		}
+		
+	}
+	
+	private String stringArrayToString(String[] strings) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < strings.length; i++) {
+			sb.append(i).append(":").append(strings[i]).append(System.lineSeparator());			
+		}
+		return sb.toString();
 	}
 }

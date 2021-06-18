@@ -2,13 +2,13 @@ package htwb.projekt.p2p.volltextsuche.textextraction18.search;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Person;
+import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speach;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.TitlePersonMap;
 
 public class SpeachSearch {
@@ -107,12 +107,15 @@ public class SpeachSearch {
 		if (RegexPattern.PERSON_PARTY.pattern.matcher(text).find()) {
 			person = RegexPattern.PERSON_PARTY.pattern.split(text);
 			String affiliation = person[1].split("(?<=(\\)))")[0];
+			affiliation = affiliation.replaceAll("(.)\n(.)", "$1$2");
+			affiliation = affiliation.strip();
 			return new Person(person[0], affiliation);
 
 		} else if (RegexPattern.PERSON_AFFILIATION.pattern.matcher(text).find()) {
 			person = RegexPattern.PERSON_AFFILIATION.pattern.split(text);
 			String affiliation = person[1].split("\\s+\\.+")[0];
-			affiliation = affiliation.trim();
+			affiliation = affiliation.replaceAll("(.)\n(.)", "$1$2");
+			affiliation = affiliation.strip();
 			return new Person(person[0], affiliation);
 		} else
 			return null;
@@ -167,29 +170,10 @@ public class SpeachSearch {
 		}
 		return erg;
 	}
-
-	public static String searchSpeachSnippet(String text) {
-		return null;
-	}
-
-	public static String searchTitle(String text) {
-		return null;
-	}
-
-	public static String searchSpeaker(String text) {
-		return null;
-	}
-
-	public static String searchAffiliation(String text) {
-		return null;
-	}
-
-	public static String searchDate(String text) {
-		return null;
-	}
-
-	public static String searchText(String text) {
-		// von SPEECH_BEGIN bis //BREAKPOINT
-		return null;
+	
+	public List<Speach> createSpeachListFromMap(TitlePersonMap titlePersonMap, String text){
+		List<Speach> speachList = null;
+		HashMap<String, ArrayList<Person>> map = titlePersonMap.getMap();
+		return speachList;
 	}
 }
