@@ -42,7 +42,7 @@ public class Extractor {
 
 			UUID speachID = service.save(speach);
 			TitlePersonMap map = search.getMap(extractedXML.getProtocoll());
-			map = map.clearEmptyEntries();
+//			map = map.clearEmptyEntries();
 			map = map.prettyUpEntries();
 			System.out.println(map);
 		}

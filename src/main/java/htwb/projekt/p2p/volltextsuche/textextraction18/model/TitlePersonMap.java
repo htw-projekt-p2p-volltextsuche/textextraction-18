@@ -110,8 +110,8 @@ public class TitlePersonMap {
 	}
 	
 	private String prettyUpTitle(String title) {
-		if(RegexPattern.DRUCKSACHE.pattern.matcher(title).find()) {
-			title = RegexPattern.DRUCKSACHE.pattern.split(title)[0];
+		if(RegexPattern.PRINTED_MATTER.pattern.matcher(title).find()) {
+			title = RegexPattern.PRINTED_MATTER.pattern.split(title)[0];
 		}		
 		return title;
 	}

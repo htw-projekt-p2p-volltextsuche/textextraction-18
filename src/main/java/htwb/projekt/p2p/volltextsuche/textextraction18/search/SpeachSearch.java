@@ -67,33 +67,60 @@ public class SpeachSearch {
 		int i, j;
 		for (i = 0; i < toc.length; i++) {
 			if (i + 1 < toc.length) {
+				// find title in table of content
 				if (RegexPattern.TITLE.pattern.matcher(toc[i]).find()) {
-//					LOG.log(Level.SEVERE, toc[i]);
-					if (!RegexPattern.TITLE.pattern.matcher(toc[i + 1]).find()) {
-						if (RegexPattern.PERSON.pattern.matcher(toc[i + 1]).find()) {
-//						LOG.log(Level.SEVERE, toc[i + 1]);
+					// find next entry after title that is a person entry
+					if (RegexPattern.PERSON.pattern.matcher(toc[i + 1]).find()) {
+						if (!RegexPattern.TITLE.pattern.matcher(toc[i + 1]).find()) {
+							// iterate from first entry that is a name until find new title
 							for (j = i + 1; j < toc.length; j++) {
 								if (RegexPattern.TITLE.pattern.matcher(toc[j]).find()) {
-//								LOG.log(Level.SEVERE, toc[j]);
-//									LOG.log(Level.SEVERE, toc[i].split(":")[0] + toc[j].split(":")[0]);
 									ArrayList<Person> personlist = new ArrayList<Person>();
 									for (int k = i + 1; k < j; k++) {
 										if (!RegexPattern.TITLE.pattern.matcher(toc[k]).find()) {
 											if (RegexPattern.PERSON.pattern.matcher(toc[k]).find()) {
 												Person p = createPersonfromString(toc[k]);
-//										LOG.log(Level.SEVERE, p.toString());
 												personlist.add(p);
 											}
 										}
 									}
 									String title = addOrderString(toc[i], i);
 									map.addToMap(title, personlist);
-									i = j-1;
+									i = j - 1;
 									j = toc.length - 1;
 									continue;
 								}
 							}
 						}
+						// FIXME pattern "Fragestunde:"
+					} else if (RegexPattern.QUESTION_TIME.pattern.matcher(toc[i + 1]).find()) {
+
+						// TODO add "Geschäftsordung"
+					} else if (RegexPattern.AGENDA.pattern.matcher(toc[i]).find()) {
+						if (RegexPattern.PERSON.pattern.matcher(toc[i + 1]).find()) {
+							for (j = i + 1; j < toc.length; j++) {
+								if (RegexPattern.TITLE.pattern.matcher(toc[j]).find()) {
+									ArrayList<Person> personlist = new ArrayList<Person>();
+									String personString = RegexPattern.AGENDA.pattern.split(toc[i])[1];
+									Person person = createPersonfromString(personString);
+									personlist.add(person);
+									for (int k = i + 1; k < j; k++) {
+										if (!RegexPattern.TITLE.pattern.matcher(toc[k]).find()) {
+											if (RegexPattern.PERSON.pattern.matcher(toc[k]).find()) {
+												Person p = createPersonfromString(toc[k]);
+												personlist.add(p);
+											}
+										}
+									}
+									String title = addOrderString(toc[i], i);
+									map.addToMap(title, personlist);
+									i = j - 1;
+									j = toc.length - 1;
+									continue;
+								}
+							}
+						}
+
 					}
 				}
 			}
@@ -101,6 +128,7 @@ public class SpeachSearch {
 		return map;
 	}
 
+	//FIXME NO entries for Question Time
 	private Person createPersonfromString(String text) {
 		String[] person = null;
 		if (RegexPattern.PERSON_PARTY.pattern.matcher(text).find()) {
@@ -120,15 +148,15 @@ public class SpeachSearch {
 			return null;
 
 	}
-	
+
 	private String addOrderString(String title, int index) {
-		if(index < 10) {
-			title = "000"+index+" "+title;
-		} else if(index >=10 && index <100) {
-			title = "00"+index+" "+title;
-		} else if(index >=100 && index <1000) {
-			title = "0"+index+" "+title;
-		}			
+		if (index < 10) {
+			title = "000" + index + " " + title;
+		} else if (index >= 10 && index < 100) {
+			title = "00" + index + " " + title;
+		} else if (index >= 100 && index < 1000) {
+			title = "0" + index + " " + title;
+		}
 		return title;
 	}
 
@@ -180,11 +208,11 @@ public class SpeachSearch {
 		}
 		return erg;
 	}
-	
-	public List<Speach> createSpeachListFromMap(TitlePersonMap titlePersonMap, String text){
+
+	public List<Speach> createSpeachListFromMap(TitlePersonMap titlePersonMap, String text) {
 		List<Speach> speachList = null;
 		TreeMap<String, ArrayList<Person>> map = titlePersonMap.getMap();
-		
+
 		return speachList;
 	}
 }
