@@ -2,20 +2,31 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import htwb.projekt.p2p.volltextsuche.textextraction18.xml.XMLParser;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Person;
+import htwb.projekt.p2p.volltextsuche.textextraction18.model.TitlePersonMap;
 import htwb.projekt.p2p.volltextsuche.textextraction18.search.SpeachSearch;
 
 class RegexTest {
+	private SpeachSearch search;
 	private static final Logger LOG = Logger.getLogger(SpeachSearch.class.getName());
+	private String inputString;
 	private String first = "Zusatztagesordnungspunkt 1:\r\n" + "Antrag der Fraktion BÜNDNIS 90/DIE GRÜ-\r\n"
 			+ "NEN: Einsetzung von Ausschüssen\r\n"
 			+ "(Drucksache 18/102) . . . . . . . . . . . . . . . . . . . . 75 D";
@@ -39,35 +50,17 @@ class RegexTest {
 			+ "Resolution 1996 (2011) des Sicherheitsrates\r\n" + "der Vereinten Nationen vom 8. Juli 2011\r\n"
 			+ "und Folgeresolutionen, zuletzt 2109 (2013)\r\n" + "vom 11. Juli 2013\r\n"
 			+ "(Drucksache 18/71) . . . . . . . . . . . . . . . . . . . . . 80 C";
-	private String partyOrAffiliation = "Mündliche Frage 1\r\n"
-			+ "Lisa Paus (BÜNDNIS 90/\r\n"
-			+ "\r\n"
-			+ "DIE GRÜNEN)\r\n"
-			+ "Einfluss des Staatsministers a. D. Eckart\r\n"
-			+ "von Klaeden auf Entscheidungen im Be-\r\n"
-			+ "reich Elektromobilität\r\n"
-			+ "Antwort\r\n"
-			+ "Dr. Maria Böhmer, Staatsministerin \r\n"
-			+ "\r\n"
-			+ "BK . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 119 D\r\n"
-			+ "Zusatzfrage\r\n"
-			+ "Lisa Paus (BÜNDNIS 90/\r\n"
-			+ "\r\n"
-			+ "DIE GRÜNEN) . . . . . . . . . . . . . . . . . . . . . 119 D\r\n"
-			+ "\r\n"
-			+ "Mündliche Frage 2\r\n"
-			+ "Lisa Paus (BÜNDNIS 90/\r\n"
-			+ "\r\n"
-			+ "DIE GRÜNEN)\r\n"
-			+ "Etwaige Loyalitätskonflikte des Staats-\r\n"
-			+ "ministers a. D. Eckart von Klaeden im\r\n"
-			+ "dienstlichen Kontakt zu der Investment-\r\n"
-			+ "bank Goldman Sachs\r\n"
-			+ "Antwort\r\n"
-			+ "Dr. Maria Böhmer, Staatsministerin \r\n"
-			+ "\r\n"
-			+ "BK . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 120 A\r\n"
-			+ "Zusatzfragen";
+	private String partyOrAffiliation = "Mündliche Frage 1\r\n" + "Lisa Paus (BÜNDNIS 90/\r\n" + "\r\n"
+			+ "DIE GRÜNEN)\r\n" + "Einfluss des Staatsministers a. D. Eckart\r\n"
+			+ "von Klaeden auf Entscheidungen im Be-\r\n" + "reich Elektromobilität\r\n" + "Antwort\r\n"
+			+ "Dr. Maria Böhmer, Staatsministerin \r\n" + "\r\n"
+			+ "BK . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 119 D\r\n" + "Zusatzfrage\r\n"
+			+ "Lisa Paus (BÜNDNIS 90/\r\n" + "\r\n" + "DIE GRÜNEN) . . . . . . . . . . . . . . . . . . . . . 119 D\r\n"
+			+ "\r\n" + "Mündliche Frage 2\r\n" + "Lisa Paus (BÜNDNIS 90/\r\n" + "\r\n" + "DIE GRÜNEN)\r\n"
+			+ "Etwaige Loyalitätskonflikte des Staats-\r\n" + "ministers a. D. Eckart von Klaeden im\r\n"
+			+ "dienstlichen Kontakt zu der Investment-\r\n" + "bank Goldman Sachs\r\n" + "Antwort\r\n"
+			+ "Dr. Maria Böhmer, Staatsministerin \r\n" + "\r\n"
+			+ "BK . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 120 A\r\n" + "Zusatzfragen";
 
 	private String question = "Dr. Matthias Miersch (SPD) . . . . . . . . . . . . . . 117 D\r\n" + "\r\n"
 			+ "Josef Göppel (CDU/CSU)  . . . . . . . . . . . . . . . 118 C\r\n" + "Tagesordnungspunkt 6:\r\n"
@@ -189,6 +182,14 @@ class RegexTest {
 			+ "Zusatztagesordnungspunkt 2:\r\n" + "\r\n" + "Vereinbarte Debatte: zu dem vorläufigen\r\n"
 			+ "Atomabkommen mit dem Iran. . . . . . . . . . . 138 A";
 
+	@BeforeEach
+	void setup() {
+		search = new SpeachSearch();
+
+		URL url = Thread.currentThread().getContextClassLoader().getResource("18003.xml");
+		inputString = url.getFile();
+	}
+
 	@Test
 	void test() {
 		assert (RegexPattern.PERSON.pattern.matcher(first).find());
@@ -237,13 +238,13 @@ class RegexTest {
 				if (i + 1 < strings.length) {
 					assert (!RegexPattern.TITLE.pattern.matcher(strings[i + 1]).find());
 					LOG.log(Level.INFO, strings[i + 1]);
-					
+
 					assert (RegexPattern.PERSON.pattern.matcher(strings[i + 1]).find());
 				}
 			}
 		}
 	}
-	
+
 	@Test
 	void testpartyOrAffiliation() {
 		String[] strings = RegexPattern.TOC_NAMES.pattern.split(question);
@@ -252,20 +253,37 @@ class RegexTest {
 			if (RegexPattern.TITLE.pattern.matcher(strings[i]).find()) {
 				if (i + 1 < strings.length) {
 					assert (!RegexPattern.TITLE.pattern.matcher(strings[i + 1]).find());
-					
+
 					LOG.log(Level.INFO, strings[i + 1]);
-					
+
 					assert (RegexPattern.PERSON.pattern.matcher(strings[i + 1]).find());
-					if(RegexPattern.PERSON.pattern.matcher(strings[i + 1]).find()) {
-						Person p = createPersonfromString(strings[i + 1]);
+					if (RegexPattern.PERSON.pattern.matcher(strings[i + 1]).find()) {
+						Person p = search.createPersonfromString(strings[i + 1]);
 						personList.add(p);
-						
+
 					}
 				}
 			}
 		}
 		assert (personList != null);
-		personList.forEach(x-> assertTrue(x != null));
+		personList.forEach(x -> assertTrue(x != null));
+	}
+
+	@Test
+	void testgetMap() {
+		inputString = XMLParser.readXML(inputString).getProtocoll();
+		String[] agendaList = search.getAgendaItems(inputString);
+		assert agendaList.length > 0;
+		agendaList = search.concatAgendaItems(agendaList);
+		assert agendaList.length > 0;
+		List<String> titleList = search.getAgenda(agendaList);
+		assert titleList.size() > 0;
+		LOG.log(Level.INFO, Arrays.asList(agendaList).toString());
+		TitlePersonMap map = search.createMap(agendaList);
+		Integer sizeOfMap = map.getSize();
+		assert sizeOfMap > 0;
+
+//		LOG.log(Level.INFO, map.toString());
 	}
 
 	private String stringArrayToString(String[] strings) {
@@ -274,25 +292,5 @@ class RegexTest {
 			sb.append(i).append(":").append(strings[i]).append(System.lineSeparator());
 		}
 		return sb.toString();
-	}
-	
-	private Person createPersonfromString(String text) {
-		String[] person = null;
-		if (RegexPattern.PERSON_PARTY.pattern.matcher(text).find()) {
-			person = RegexPattern.PERSON_PARTY.pattern.split(text);
-			String affiliation = person[1].split("(?<=(\\)))")[0];
-			affiliation = affiliation.replaceAll("(.)\n(.)", "$1$2");
-			affiliation = affiliation.strip();
-			return new Person(person[0], affiliation);
-
-		} else if (RegexPattern.PERSON_AFFILIATION.pattern.matcher(text).find()) {
-			person = RegexPattern.PERSON_AFFILIATION.pattern.split(text);
-			String affiliation = person[1].split("\\s+\\.+")[0];
-			affiliation = affiliation.replaceAll("(.)\n(.)", "$1$2");
-			affiliation = affiliation.strip();
-			return new Person(person[0], affiliation);
-		} else
-			return null;
-
 	}
 }

@@ -66,7 +66,8 @@ public class TitlePersonMap {
 		}
 		return outputMap;
 	}
-	
+
+
 	public TitlePersonMap prettyUpEntries() {
 		TitlePersonMap outputMap = new TitlePersonMap();
 		TreeMap<String, ArrayList<Person>> inputMap = this.getMap();
@@ -75,11 +76,7 @@ public class TitlePersonMap {
 			title = prettyUpTitle(title);
 			title = prettyUpText(title);
 			ArrayList<Person> personList = new ArrayList<Person>();
-			
-			
-			
-			
-			outputMap.addToMap(title, entry.getValue());			
+			outputMap.addToMap(title, entry.getValue());
 		}
 		return outputMap;
 	}

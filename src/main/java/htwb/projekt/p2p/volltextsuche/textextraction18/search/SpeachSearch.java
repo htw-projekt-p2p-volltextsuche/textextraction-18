@@ -29,7 +29,7 @@ public class SpeachSearch {
 		return map;
 	}
 
-	private String[] getAgendaItems(String text) {
+	public String[] getAgendaItems(String text) {
 		text = splitProtocoll(text)[0];
 		String[] arr = RegexPattern.TOC_NAMES.pattern.split(text);
 		arr = Arrays.copyOfRange(arr, 0, arr.length - 1);
@@ -37,7 +37,7 @@ public class SpeachSearch {
 		return arr;
 	}
 
-	private String[] concatAgendaItems(String[] toc) {
+	public String[] concatAgendaItems(String[] toc) {
 		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < toc.length; i++) {
 			if (toc[i].contains("in Verbindung mit")) {
@@ -53,7 +53,7 @@ public class SpeachSearch {
 		return list.toArray(new String[list.size()]);
 	}
 
-	private List<String> getAgenda(String[] toc) {
+	public List<String> getAgenda(String[] toc) {
 		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < toc.length; i++) {
 			if (toc[i].contains("ordnung")) {
@@ -92,10 +92,9 @@ public class SpeachSearch {
 								}
 							}
 						}
-						// FIXME pattern "Fragestunde:"
-					} else if (RegexPattern.QUESTION_TIME.pattern.matcher(toc[i + 1]).find()) {
+						// pattern "Fragestunde:"
+//					} else if (RegexPattern.QUESTION_TIME.pattern.matcher(toc[i]).find()) {
 
-						// TODO add "Geschäftsordung"
 					} else if (RegexPattern.AGENDA.pattern.matcher(toc[i]).find()) {
 						if (RegexPattern.PERSON.pattern.matcher(toc[i + 1]).find()) {
 							for (j = i + 1; j < toc.length; j++) {
@@ -129,7 +128,7 @@ public class SpeachSearch {
 	}
 
 	//FIXME NO entries for Question Time
-	private Person createPersonfromString(String text) {
+	public Person createPersonfromString(String text) {
 		String[] person = null;
 		if (RegexPattern.PERSON_PARTY.pattern.matcher(text).find()) {
 			person = RegexPattern.PERSON_PARTY.pattern.split(text);
@@ -148,6 +147,8 @@ public class SpeachSearch {
 			return null;
 
 	}
+
+	//TODO extract by names in map
 
 	private String addOrderString(String title, int index) {
 		if (index < 10) {
