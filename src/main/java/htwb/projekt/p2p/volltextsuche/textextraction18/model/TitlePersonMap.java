@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 

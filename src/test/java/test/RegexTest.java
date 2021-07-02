@@ -304,7 +304,23 @@ class RegexTest {
         if (fileName.contains("/")) {
             subString = fileName.substring(fileName.lastIndexOf("/") + 1);
         }
-        subString = subString.substring(0 ,subString.indexOf("."));
+        subString = subString.substring(0, subString.indexOf("."));
         assertEquals(subString, "18003");
+    }
+
+    @Test
+    void extraSigninNameTest() {
+        String name = "I Ralph Lenkert";
+        if (Pattern.compile("I+").matcher(name).find()) {
+            name = name.substring(name.lastIndexOf("I")+2);
+        }
+        LOG.log(Level.INFO, name);
+        assertEquals("Ralph Lenkert", name);
+    }
+
+    @Test
+    void matcher(){
+        String name = "I Ralph Lenkert";
+        assert Pattern.compile("I+").matcher(name).find();
     }
 }

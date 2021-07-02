@@ -34,7 +34,7 @@ public class JSONFileWriter {
         }
         try {
             writer = new FileWriter(jsonFile);
-            writer.write(mapper.writeValueAsString(node));
+            writer.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -50,7 +50,6 @@ public class JSONFileWriter {
     }
 
     private static String fileWithDirectoryToFileName(String fileName) {
-        LOG.log(Level.INFO, fileName);
         String subString = "";
         if (fileName.contains("/")) {
             subString = fileName.substring(fileName.lastIndexOf("/") + 1);

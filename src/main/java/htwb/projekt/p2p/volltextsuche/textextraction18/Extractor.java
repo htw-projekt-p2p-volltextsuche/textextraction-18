@@ -11,9 +11,12 @@ import htwb.projekt.p2p.volltextsuche.textextraction18.xml.XMLParser;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Extractor {
-
+    private static final Logger LOG = Logger.getLogger(Extractor.class.getName());
     public static void main(String[] args) {
         System.out.println(outArgs(args));
         Service service = new Service();
@@ -53,6 +56,11 @@ public class Extractor {
             }
 
 			JSONFileWriter.write(service.getAllAsJSON(), args[i]);
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                LOG.log(Level.INFO, "Scan...");
+            }
         }
     }
 
