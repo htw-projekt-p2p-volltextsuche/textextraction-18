@@ -1,5 +1,6 @@
 htwb/projekt/p2p/volltextsuche/textextraction18/util/HibernateUtil.class
 htwb/projekt/p2p/volltextsuche/textextraction18/enums/RegexPattern.class
+htwb/projekt/p2p/volltextsuche/textextraction18/misc/JSONFileWriter.class
 htwb/projekt/p2p/volltextsuche/textextraction18/misc/Service.class
 htwb/projekt/p2p/volltextsuche/textextraction18/xml/TagNames.class
 htwb/projekt/p2p/volltextsuche/textextraction18/enums/Affiliation.class

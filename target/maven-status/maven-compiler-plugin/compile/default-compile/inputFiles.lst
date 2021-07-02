@@ -1,12 +1,13 @@
+/mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/misc/Service.java
+/mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/model/XMLExtract.java
+/mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/enums/Affiliation.java
+/mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/misc/JSONFileWriter.java
+/mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/model/Speach.java
 /mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/search/SpeachSearch.java
 /mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/enums/RegexPattern.java
-/mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/misc/Service.java
 /mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/xml/TagNames.java
-/mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/model/XMLExtract.java
 /mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/xml/XMLParser.java
-/mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/enums/Affiliation.java
 /mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/util/HibernateUtil.java
 /mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/Extractor.java
 /mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/model/TitlePersonMap.java
 /mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/model/Person.java
-/mnt/d/GitRepos/textextraction-18/src/main/java/htwb/projekt/p2p/volltextsuche/textextraction18/model/Speach.java

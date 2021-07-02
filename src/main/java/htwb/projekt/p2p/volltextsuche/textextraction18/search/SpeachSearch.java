@@ -1,10 +1,10 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.search;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeMap;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Person;
@@ -148,7 +148,31 @@ public class SpeachSearch {
 
 	}
 
-	//TODO extract by names in map
+	public List<Speach> addToListFromMap(TitlePersonMap map, String text, LocalDate date){
+		List<Speach> speachList = new ArrayList<>();
+		TreeMap<String, ArrayList<Person>> treeMap = map.getMap();
+		for (Map.Entry<String, ArrayList<Person>> entry : treeMap.entrySet()) {
+			for (int i = 0; i < entry.getValue().size(); i++) {
+				Person person = entry.getValue().get(i);
+				Speach speach = new Speach();
+				speach.setDate(date);
+				speach.setTitle(entry.getKey());
+				speach.setSpeaker(person.getName());
+				speach.setAffiliation(person.getAffiliation());
+				speach.setText(getSpeachText(person, text));
+				speachList.add(speach);
+			}
+		}
+		return speachList;
+	}
+
+	private String getSpeachText(Person p, String text){
+		LOG.log(Level.INFO, p.toString());
+		text = p.getRegexFromPerson().split(text)[1];
+		text = RegexPattern.BREAKPOINT.pattern.split(text)[0];
+		return text;
+	}
+
 
 	private String addOrderString(String title, int index) {
 		if (index < 10) {
