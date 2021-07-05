@@ -8,6 +8,7 @@ import htwb.projekt.p2p.volltextsuche.textextraction18.model.TitlePersonMap;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SpeechSearch {
@@ -136,7 +137,9 @@ public class SpeechSearch {
         for (Map.Entry<String, ArrayList<Person>> entry : treeMap.entrySet()) {
             for (int i = 0; i < entry.getValue().size(); i++) {
                 Person person = entry.getValue().get(i);
-                Speach speach = new Speach(entry.getKey(), person.getName(), person.getAffiliation() , date, getSpeechText(person, text));
+//                LOG.log(Level.INFO, text);
+                String speech = getSpeechText(person, text);
+                Speach speach = new Speach(entry.getKey(), person.getName(), person.getAffiliation(), date, speech);
                 speechList.add(speach);
             }
         }
@@ -144,11 +147,14 @@ public class SpeechSearch {
     }
 
     private String getSpeechText(Person p, String text) {
-        if (p.getRegexFromPerson().matcher(text).find()) {
-            text = p.getRegexFromPerson().split(text)[1];
-            text = RegexPattern.BREAKPOINT.pattern.split(text)[0];
-        }
-//        LOG.log(Level.INFO, "create speech from " + p.toString());
+        Matcher m = p.getRegexFromPerson().matcher(text);
+        //TODO I have no idea, what to do
+        if (m.matches()) {
+            Integer start = m.end();
+            String newText = p.getRegexFromPerson().split(text)[1];
+            Integer end = RegexPattern.BREAKINGPOINT.pattern.matcher(newText).start();
+            text = text.substring(start, end);
+        } else text = "";
         return text;
     }
 
@@ -206,14 +212,15 @@ public class SpeechSearch {
     }
 
     public String searchPresidentPostText(String text, String regex) {
+//        LOG.log(Level.INFO, text);
         regex = regex.replaceAll("\\s\\s", " ");
-        String afterToc = splitProtocol(text)[1];
-        String presidentText = Pattern.compile(regex).split(afterToc)[1];
-        String[] postText = RegexPattern.BREAKPOINT.pattern.split(presidentText);
+        String[] postText = splitProtocol(text);
+//        LOG.log(Level.INFO, Arrays.asList(postText).toString());
         StringBuilder erg = new StringBuilder();
         for (int i = 1; i < postText.length; i++) {
             erg.append(postText[i]);
         }
+//        LOG.log(Level.INFO, erg.toString());
         return erg.toString();
     }
 }

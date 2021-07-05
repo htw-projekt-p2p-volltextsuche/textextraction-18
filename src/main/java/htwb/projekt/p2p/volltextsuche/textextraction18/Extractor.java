@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 public class Extractor {
     private static final Logger LOG = Logger.getLogger(Extractor.class.getName());
+
     public static void main(String[] args) {
         System.out.println(outArgs(args));
         SpeechSearch search = new SpeechSearch();
@@ -25,35 +26,35 @@ public class Extractor {
             if (Pattern.compile("001\\.xml").matcher(arg).find()) {
                 continue;
             }
-            System.out.println("Try to extract from: " +arg);
+            System.out.println("Try to extract from: " + arg);
             try {
                 extractedXML = XMLParser.readXML(arg);
-                extractedString = extractedXML.toString();
+                extractedString = extractedXML.getProtocoll();
 
             } catch (Exception e) {
-                LOG.log(Level.SEVERE,"Can not load XML-File: " + arg + "\n" + e.getMessage());
+                LOG.log(Level.SEVERE, "Can not load XML-File: " + arg + "\n" + e.getMessage());
             }
             String presidentTitleofSpeach = "Eröffnungsrede";
-            String presidentName = search.searchPresidentName(extractedXML.getProtocoll());
-            String presidentAffiliation = search.searchPresidentAffiliation(extractedXML.getProtocoll()).strip();
+            String presidentName = search.searchPresidentName(extractedString);
+            String presidentAffiliation = search.searchPresidentAffiliation(extractedString.strip());
             LocalDate presidentSpeachDate = extractedXML.getDate();
-            String presidentSpeachTextSplit = presidentAffiliation + " " + presidentName + ":";
-            String presidentSpeachText = search.searchPresidentText(extractedXML.getProtocoll(), presidentSpeachTextSplit);
+            String presidentSpeachTextSplit = presidentAffiliation + presidentName + ":\\n+";
+            String presidentSpeachText = search.searchPresidentText(extractedString, presidentSpeachTextSplit);
 
             Speach speach = new Speach(presidentTitleofSpeach, presidentName, presidentAffiliation, presidentSpeachDate, presidentSpeachText);
 
-            //FIXME delete hibernate because it throws an heap space error
-            TitlePersonMap map = search.getMap(extractedXML.getProtocoll());
+            TitlePersonMap map = search.getMap(extractedString);
             map = map.prettyUpEntries();
             map = map.clearEmptyEntries();
-            List<Speach> speachList = search.addToListFromMap(map, search.searchPresidentPostText(extractedXML.getProtocoll(), presidentSpeachTextSplit), extractedXML.getDate());
+//            LOG.log(Level.INFO, extractedString);
+            List<Speach> speachList = search.addToListFromMap(map, search.searchPresidentPostText(extractedString, presidentSpeachTextSplit), extractedXML.getDate());
             speachList.add(speach);
 
             JSONFileWriter.write(speachList, arg);
             try {
                 TimeUnit.SECONDS.sleep(3);
             } catch (InterruptedException e) {
-                LOG.log(Level.SEVERE,"Scan...");
+                LOG.log(Level.SEVERE, "Scan...");
             }
         }
     }

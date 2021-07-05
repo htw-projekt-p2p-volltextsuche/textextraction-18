@@ -321,4 +321,38 @@ class RegexTest {
         String name = "I Ralph Lenkert";
         assert Pattern.compile("I+").matcher(name).find();
     }
+
+    @Test
+    void matcher2(){
+        String name = "Dr. Johann Wadephul (CDU/CSU):";
+        assert Pattern.compile("Dr. Johann Wadephul\\s*\\(.+\\r*\\n*.+\\):").matcher(name).find();
+    }
+
+    @Test
+    void PatternGroupTest(){
+        String test = "Danke.\n" +
+                "\n" +
+                "(Beifall bei der LINKEN)\n" +
+                "\n" +
+                "Präsident Dr. Norbert Lammert:\n" +
+                "Für die CDU/CSU-Fraktion erhält der Kollege Johann\n" +
+                "\n" +
+                "Wadephul das Wort.\n" +
+                "\n" +
+                "Dr. Johann Wadephul (CDU/CSU):\n" +
+                "Herr Präsident! Meine sehr verehrten Damen und Her-\n" +
+                "\n" +
+                "ren! Spätestens nachdem der Bundestagspräsident noch\n" +
+                "einmal auf den Minderheitenschutz im Deutschen Bun-\n" +
+                "destag hingewiesen hat, ist es notwendig, darzulegen,\n" +
+                "warum wir empfehlen, den Antrag heute nicht zu behan-\n" +
+                "deln.";
+        if(RegexPattern.BREAKINGPOINT.pattern.matcher(test).find()){
+
+            String regexTest = RegexPattern.BREAKPOINT.pattern.split(test)[1];
+            LOG.log(Level.INFO, regexTest);
+
+        } else LOG.log(Level.INFO, "NOPE");
+    }
+
 }

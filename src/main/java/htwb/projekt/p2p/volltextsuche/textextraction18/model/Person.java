@@ -2,6 +2,7 @@ package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
@@ -35,19 +36,14 @@ public class Person {
     }
 
     public Pattern getRegexFromPerson() {
-        String name = getName();
+        String nameRegex = this.getName();
+        String affilationRegex = "";
         if (RegexPattern.ISPARTY.pattern.matcher(getAffiliation()).find()) {
-//            String party = getAffiliation();
-//            if (Pattern.compile("/").matcher(party).find()){
-//                party = getAffiliation().replaceAll("/\\s","/");
-//                party = party.replaceAll("\\(./.\\)", "$1/$2");
-//            }
-            String regex = name + "\\s*\\(.+\\r*\\n*.+\\):";
-            return Pattern.compile(regex);
+            affilationRegex = "\\s*\\(.+\\r*\\n*.+\\):\\n";
         } else {
-            String regex = name + "\\s*,.+\\r*\\s*.+:";
-            return Pattern.compile(regex);
+            affilationRegex = "\\s*,.+\\r*\\s*.+:\\n";
         }
+        return Pattern.compile(nameRegex+affilationRegex);
     }
 
     @Override
