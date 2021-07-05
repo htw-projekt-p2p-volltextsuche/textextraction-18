@@ -33,3 +33,7 @@ speach.json.tmp/
 speach.tmp/
 /speach.properties
 /speach.script
+
+src/main/resources/pp18-data/
+
+target/

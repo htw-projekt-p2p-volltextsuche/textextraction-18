@@ -3,7 +3,7 @@ package test;
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Person;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.TitlePersonMap;
-import htwb.projekt.p2p.volltextsuche.textextraction18.search.SpeachSearch;
+import htwb.projekt.p2p.volltextsuche.textextraction18.search.SpeechSearch;
 import htwb.projekt.p2p.volltextsuche.textextraction18.xml.XMLParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RegexTest {
-    private static final Logger LOG = Logger.getLogger(SpeachSearch.class.getName());
-    private SpeachSearch search;
+    private static final Logger LOG = Logger.getLogger(SpeechSearch.class.getName());
+    private SpeechSearch search;
     private String inputString;
     private String first = "Zusatztagesordnungspunkt 1:\r\n" + "Antrag der Fraktion BÜNDNIS 90/DIE GRÜ-\r\n"
             + "NEN: Einsetzung von Ausschüssen\r\n"
@@ -180,7 +180,7 @@ class RegexTest {
 
     @BeforeEach
     void setup() {
-        search = new SpeachSearch();
+        search = new SpeechSearch();
 
         URL url = Thread.currentThread().getContextClassLoader().getResource("18003.xml");
         inputString = url.getFile();
@@ -269,8 +269,6 @@ class RegexTest {
     void testgetMap() {
         inputString = XMLParser.readXML(inputString).getProtocoll();
         String[] agendaList = search.getAgendaItems(inputString);
-        assert agendaList.length > 0;
-        agendaList = search.concatAgendaItems(agendaList);
         assert agendaList.length > 0;
         List<String> titleList = search.getAgenda(agendaList);
         assert titleList.size() > 0;

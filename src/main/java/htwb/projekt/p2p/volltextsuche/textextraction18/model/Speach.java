@@ -1,52 +1,32 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
-
-@Entity
-@Table(name = "speach")
 public class Speach {
 
-	@Id
-	@GeneratedValue
-    @Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
-	@Column
-	@Type(type = "text")
 	private String title;
 
-	@Column
 	private String speaker;
 
-	@Column
 	private String affiliation;
 
-	@Column
 	private String date;
 
-	@Column
-	@Type(type = "text")
 	private String text;
 
 	public Speach() {
 	}
 
 	public Speach(String title, String speaker, String affiliation, LocalDate date, String text) {
+		this.id = UUID.randomUUID();
 		this.title = title;
 		this.speaker = speaker;
 		this.affiliation = affiliation;
