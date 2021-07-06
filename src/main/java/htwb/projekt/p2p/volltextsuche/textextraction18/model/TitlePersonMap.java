@@ -1,24 +1,22 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 
+import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.regex.Pattern;
-
-import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 
 /**
  * @author stefa
  *
  */
 public class TitlePersonMap {
-	private TreeMap<String, ArrayList<Person>> map;
+	private final TreeMap<String, ArrayList<Person>> map;
 	private ArrayList<Person> personList;
 
 	public TitlePersonMap() {
-		this.map = new TreeMap<String, ArrayList<Person>>();
-		this.personList = new ArrayList<Person>();
+		this.map = new TreeMap<>();
+		this.personList = new ArrayList<>();
 	}
 	
 	public TitlePersonMap(TreeMap<String, ArrayList<Person>> map) {
@@ -90,7 +88,6 @@ public class TitlePersonMap {
 		for (Person p : personList){
 			if(isLowerCaseInAffiliation(p.getAffiliation())){
 				removeList.add(p);
-				continue;
 			}
 		}
 		personList.removeAll(removeList);

@@ -1,23 +1,29 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.misc.JSONFileWriter;
-import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speach;
+import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speech;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.TitlePersonMap;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
 import htwb.projekt.p2p.volltextsuche.textextraction18.search.SpeechSearch;
 import htwb.projekt.p2p.volltextsuche.textextraction18.xml.XMLParser;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class Extractor {
-    private static final Logger LOG = Logger.getLogger(Extractor.class.getName());
+    private static final Logger LOG = LogManager.getLogger(Extractor.class);
 
     public static void main(String[] args) {
+        if (args.length == 0) {
+            LOG.error("Nothing to read");
+        }
+        int speechCount = 0;
+        int fileCount = 0;
         System.out.println(outArgs(args));
         SpeechSearch search = new SpeechSearch();
         XMLExtract extractedXML = null;
@@ -26,13 +32,17 @@ public class Extractor {
             if (Pattern.compile("001\\.xml").matcher(arg).find()) {
                 continue;
             }
-            System.out.println("Try to extract from: " + arg);
+            LOG.debug("Try to extract from: " + arg);
             try {
                 extractedXML = XMLParser.readXML(arg);
                 extractedString = extractedXML.getProtocoll();
 
             } catch (Exception e) {
-                LOG.log(Level.SEVERE, "Can not load XML-File: " + arg + "\n" + e.getMessage());
+                LOG.error("Can not load XML-File: " + arg + "\n" + e.getMessage());
+            }
+            if (extractedString == null) {
+                LOG.warn("failure occured, " + arg + " will skip");
+                continue;
             }
             String presidentTitleofSpeach = "Eröffnungsrede";
             String presidentName = search.searchPresidentName(extractedString);
@@ -41,22 +51,24 @@ public class Extractor {
             String presidentSpeachTextSplit = presidentAffiliation + presidentName + ":\\n+";
             String presidentSpeachText = search.searchPresidentText(extractedString, presidentSpeachTextSplit);
 
-            Speach speach = new Speach(presidentTitleofSpeach, presidentName, presidentAffiliation, presidentSpeachDate, presidentSpeachText);
+            Speech speech = new Speech(presidentTitleofSpeach, presidentName, presidentAffiliation, presidentSpeachDate, presidentSpeachText);
 
             TitlePersonMap map = search.getMap(extractedString);
             map = map.prettyUpEntries();
             map = map.clearEmptyEntries();
-//            LOG.log(Level.INFO, extractedString);
-            List<Speach> speachList = search.addToListFromMap(map, search.searchPresidentPostText(extractedString, presidentSpeachTextSplit), extractedXML.getDate());
-            speachList.add(speach);
-
-            JSONFileWriter.write(speachList, arg);
+            List<Speech> speechList = search.addToListFromMap(map, search.searchPresidentPostText(extractedString, presidentSpeachTextSplit), extractedXML.getDate());
+            speechList.add(speech);
+            speechList = clearEmptyEntries(speechList);
+            speechCount = speechList.size();
+            JSONFileWriter.write(speechList, arg);
             try {
                 TimeUnit.SECONDS.sleep(3);
             } catch (InterruptedException e) {
-                LOG.log(Level.SEVERE, "Scan...");
+                LOG.error("Scan...");
             }
+            fileCount++;
         }
+        System.out.println("Finished, extracted " + speechCount + " Speeches in " + fileCount + " Files");
     }
 
     private static String outArgs(String[] args) {
@@ -71,6 +83,16 @@ public class Extractor {
             erg = "Nothing to read!";
         }
         return erg;
+    }
+
+    private static List<Speech> clearEmptyEntries(List<Speech> speechList){
+        List<Speech> removeList = new ArrayList<>();
+        for (Speech speech : speechList){
+            if (speech.getText() == null) removeList.add(speech);
+            if (speech.getText().isBlank()) removeList.add(speech);
+        }
+        speechList.removeAll(removeList);
+        return speechList;
     }
 
 }

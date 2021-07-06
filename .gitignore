@@ -29,10 +29,10 @@ hs_err_pid*
 [0-9]*.json
 
 # inMemory DB
-speach.json.tmp/
-speach.tmp/
-/speach.properties
-/speach.script
+speech.json.tmp/
+speech.tmp/
+/speech.properties
+/speech.script
 
 src/main/resources/pp18-data/
 

@@ -2,17 +2,18 @@ package htwb.projekt.p2p.volltextsuche.textextraction18.search;
 
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Person;
-import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speach;
+import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speech;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.TitlePersonMap;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SpeechSearch {
-    private static final Logger LOG = Logger.getLogger(SpeechSearch.class.getName());
+    private static final Logger LOG = LogManager.getLogger(SpeechSearch.class);
 
     private TitlePersonMap map;
 
@@ -63,7 +64,7 @@ public class SpeechSearch {
                                         if (!RegexPattern.TITLE.pattern.matcher(toc[k]).find()) {
                                             if (RegexPattern.PERSON.pattern.matcher(toc[k]).find()) {
                                                 Person p = createPersonfromString(toc[k]);
-                                                personList.add(p);
+                                                if (p != null) personList.add(p);
                                             }
                                         }
                                     }
@@ -89,7 +90,7 @@ public class SpeechSearch {
                                         if (!RegexPattern.TITLE.pattern.matcher(toc[k]).find()) {
                                             if (RegexPattern.PERSON.pattern.matcher(toc[k]).find()) {
                                                 Person p = createPersonfromString(toc[k]);
-                                                personList.add(p);
+                                                if (p != null) personList.add(p);
                                             }
                                         }
                                     }
@@ -122,38 +123,45 @@ public class SpeechSearch {
             affiliation = person[1].split("\\s+\\.+")[0];
             affiliation = affiliation.replaceAll("(.)\\n(.)", "$1$2");
             affiliation = affiliation.strip();
-        }
-        String name = person[0];
-        if (Pattern.compile("I+").matcher(name).find()) {
+        } else return null;
+        String name = (person[0] == null) ? "NULL" : person[0];
+        Matcher matcher = Pattern.compile("I+").matcher(name);
+        if (matcher.find()) {
             name = name.substring(name.lastIndexOf("I") + 2);
         }
         return new Person(name, affiliation);
 
     }
 
-    public List<Speach> addToListFromMap(TitlePersonMap map, String text, LocalDate date) {
-        List<Speach> speechList = new ArrayList<>();
+    public List<Speech> addToListFromMap(TitlePersonMap map, String text, LocalDate date) {
+        List<Speech> speechList = new ArrayList<>();
         TreeMap<String, ArrayList<Person>> treeMap = map.getMap();
         for (Map.Entry<String, ArrayList<Person>> entry : treeMap.entrySet()) {
             for (int i = 0; i < entry.getValue().size(); i++) {
                 Person person = entry.getValue().get(i);
-//                LOG.log(Level.INFO, text);
-                String speech = getSpeechText(person, text);
-                Speach speach = new Speach(entry.getKey(), person.getName(), person.getAffiliation(), date, speech);
-                speechList.add(speach);
+                Matcher matcher = Pattern.compile("\\)").matcher(person.getName());
+                if (!matcher.find()) {
+                    String speechText = getSpeechText(person, text);
+                    Speech speech = new Speech(entry.getKey(), person.getName(), person.getAffiliation(), date, speechText);
+                    speechList.add(speech);
+                }
             }
         }
         return speechList;
     }
 
     private String getSpeechText(Person p, String text) {
-        Matcher m = p.getRegexFromPerson().matcher(text);
-        //TODO I have no idea, what to do
-        if (m.matches()) {
-            Integer start = m.end();
+        LOG.info(p.getRegexFromPerson());
+        Matcher start = p.getRegexFromPerson().matcher(text);
+        if (start.find()) {
             String newText = p.getRegexFromPerson().split(text)[1];
-            Integer end = RegexPattern.BREAKINGPOINT.pattern.matcher(newText).start();
-            text = text.substring(start, end);
+            int begin = 0;
+            int end;
+            Matcher last = RegexPattern.BREAKINGPOINT.pattern.matcher(newText);
+            if (last.find()) {
+                end = last.start();
+            } else end = begin + 10;
+            text = newText.substring(begin, end);
         } else text = "";
         return text;
     }
@@ -171,6 +179,7 @@ public class SpeechSearch {
     }
 
     public String[] splitProtocol(String text) {
+        Matcher matcher = RegexPattern.OPENING.pattern.matcher(text);
         String[] parts = RegexPattern.OPENING.pattern.split(text);
         if (parts.length < 2) {
             throw new IllegalArgumentException("Can not split with Pattern: " + RegexPattern.OPENING.pattern);
@@ -212,15 +221,12 @@ public class SpeechSearch {
     }
 
     public String searchPresidentPostText(String text, String regex) {
-//        LOG.log(Level.INFO, text);
         regex = regex.replaceAll("\\s\\s", " ");
-        String[] postText = splitProtocol(text);
-//        LOG.log(Level.INFO, Arrays.asList(postText).toString());
-        StringBuilder erg = new StringBuilder();
-        for (int i = 1; i < postText.length; i++) {
-            erg.append(postText[i]);
+        Matcher m = Pattern.compile(regex).matcher(text);
+        String postText = "";
+        if (m.find()){
+            postText = text.substring(m.end());
         }
-//        LOG.log(Level.INFO, erg.toString());
-        return erg.toString();
+        return postText;
     }
 }

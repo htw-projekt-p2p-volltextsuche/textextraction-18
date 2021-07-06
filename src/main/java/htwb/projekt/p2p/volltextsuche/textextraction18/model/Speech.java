@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-public class Speach {
+public class Speech {
 
 	private UUID id;
 
@@ -22,16 +22,16 @@ public class Speach {
 
 	private String text;
 
-	public Speach() {
+	public Speech() {
 	}
 
-	public Speach(String title, String speaker, String affiliation, LocalDate date, String text) {
+	public Speech(String title, String speaker, String affiliation, LocalDate date, String text) {
 		this.id = UUID.randomUUID();
 		this.title = title;
 		this.speaker = speaker;
 		this.affiliation = affiliation;
 		this.date = formatDateToISO8601String(date);
-		this.text = text;
+		this.text = prettyUpText(text);
 	}
 
 	private String formatDateToISO8601String(LocalDate date) {
@@ -98,8 +98,10 @@ public class Speach {
 
 	private String prettyUpText(String text) {
 		text = text.replaceAll(RegexPattern.TWO_LINEBREAKS.pattern.pattern(), " ");
-		text = text.replaceAll("(.)-\n(.)", "$1$2");
-		text = text.replaceAll("(.)\n(.)", "$1 $2");
+		text = text.replaceAll("(.)-\\n(.)", "$1$2");
+		text = text.replaceAll("(.)-\\r*\\n*(.)", "$1$2");
+		text = text.replaceAll("(.)\\n(.)", "$1 $2");
+		text = text.replaceAll("\\n", "");
 		return text;
 	}
 

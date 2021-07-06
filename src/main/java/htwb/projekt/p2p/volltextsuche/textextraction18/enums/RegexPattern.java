@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public enum RegexPattern {
 	OPENING(Pattern.compile("(?<=Uhr)(\\r|\\n|(\\n)*)(?=(Vize|Alters)?(P|p)räsident(en|in|innen)?)")),
 	BREAKPOINT(Pattern.compile("(?=((.+minister.+\\r*\\n*.+:\\n\\n)|((.+p|P)räsident.+:\\n)|(.+\\(.+\\):\\n)))")),
-	BREAKINGPOINT(Pattern.compile("(.+minister.+\\r*\\n*.+:\\n)|((.+p|P)räsident.+:\\n)|(.+\\(.+\\):\\n)")),
+	BREAKINGPOINT(Pattern.compile("(.+,\\s.+minister.+\\r*\\n*.+:\\n)|((.+p|P)räsident.+:\\n)|(.+\\(.+\\):\\n)|(.+\\(.+/.+-\\r*\\n*.+\\):)")),
 	PRESIDENT_BREAKPOINT(Pattern.compile("(Sitzung|Sit-\\r*\\n*zung)\\r*\\n*\\s*ist eröffnet.")),
 	PRESIDENT(Pattern.compile("(?<=((Vize|Alters)?(P|p)räsident(en|in|innen)?))")),
 	SPEACH_BEGIN(Pattern.compile("\\):")),
@@ -23,7 +23,7 @@ public enum RegexPattern {
 	
 	public final Pattern pattern;
 	
-	private RegexPattern(Pattern pattern) {
+	RegexPattern(Pattern pattern) {
 		this.pattern = pattern;
 	}
 }

@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -213,11 +214,9 @@ class RegexTest {
     void testDrucksacheRegex() {
         String[] strings = RegexPattern.TOC_NAMES.pattern.split(punkt);
         assert (strings.length > 0);
-//		LOG.log(Level.INFO, stringArrayToString(strings));
         Pattern drucksache = Pattern.compile("\\r*\\n*.*Drucksache");
         for (int i = 0; i < strings.length; i++) {
             if (drucksache.matcher(strings[i]).find()) {
-//				LOG.log(Level.INFO, drucksache.split(strings[i])[0]);
             }
         }
 
@@ -347,10 +346,14 @@ class RegexTest {
                 "destag hingewiesen hat, ist es notwendig, darzulegen,\n" +
                 "warum wir empfehlen, den Antrag heute nicht zu behan-\n" +
                 "deln.";
-        if(RegexPattern.BREAKINGPOINT.pattern.matcher(test).find()){
 
-            String regexTest = RegexPattern.BREAKPOINT.pattern.split(test)[1];
-            LOG.log(Level.INFO, regexTest);
+        Matcher matcher = RegexPattern.BREAKINGPOINT.pattern.matcher(test);
+        if(matcher.find()){
+//            Matcher matcher = RegexPattern.BREAKINGPOINT.pattern.matcher(test);
+            String regexTest = RegexPattern.BREAKINGPOINT.pattern.split(test)[1];
+            String name = test.substring(matcher.start(), matcher.end());
+            System.out.println(regexTest);
+            System.out.println(name);
 
         } else LOG.log(Level.INFO, "NOPE");
     }

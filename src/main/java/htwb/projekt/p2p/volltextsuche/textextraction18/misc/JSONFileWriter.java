@@ -2,20 +2,21 @@ package htwb.projekt.p2p.volltextsuche.textextraction18.misc;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speach;
+import htwb.projekt.p2p.volltextsuche.textextraction18.Extractor;
+import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speech;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class JSONFileWriter {
-    private static final Logger LOG = Logger.getLogger(JSONFileWriter.class.getName());
+    private static final Logger LOG = LogManager.getLogger(Extractor.class);
     private static FileWriter writer;
 
-    public static void write(List<Speach> speachList, String name) {
+    public static void write(List<Speech> speechList, String name) {
         JsonMapper mapper = new JsonMapper();
         name = fileWithDirectoryToFileName(name);
         File jsonFile = new File(name);
@@ -33,8 +34,7 @@ public class JSONFileWriter {
                 e.printStackTrace();
             }
         }
-        ArrayNode node = createArrayNodeFromList(speachList);
-        //TODO split ArrayNode as String with("(?=(},")))
+        ArrayNode node = createArrayNodeFromList(speechList);
         try {
             writer = new FileWriter(jsonFile);
             writer.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node));
@@ -42,7 +42,7 @@ public class JSONFileWriter {
             e.printStackTrace();
         } finally {
             try {
-                System.out.println("wrote File: " + name);
+                LOG.debug("wrote File: " + name);
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
@@ -62,8 +62,8 @@ public class JSONFileWriter {
         return subString + ".json";
     }
 
-    private static ArrayNode createArrayNodeFromList(List<Speach> speachList) {
+    private static ArrayNode createArrayNodeFromList(List<Speech> speechList) {
         JsonMapper mapper = new JsonMapper();
-        return mapper.convertValue(speachList, ArrayNode.class);
+        return mapper.convertValue(speechList, ArrayNode.class);
     }
 }
