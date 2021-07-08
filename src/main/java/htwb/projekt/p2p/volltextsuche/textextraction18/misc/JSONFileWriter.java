@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JSONFileWriter {
     private static final Logger LOG = LogManager.getLogger(Extractor.class);
@@ -55,9 +57,12 @@ public class JSONFileWriter {
     private static String fileWithDirectoryToFileName(String fileName) {
         String subString = "";
         if (fileName.contains("/")) {
-            subString = fileName.substring(fileName.lastIndexOf("/") + 1);
+            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
         }
-        subString = subString.substring(0, subString.indexOf("."));
+        Matcher m = Pattern.compile("\\.xml").matcher(fileName);
+        if (m.find()) {
+            subString = fileName.substring(0, m.start());
+        }
 
         return subString + ".json";
     }
