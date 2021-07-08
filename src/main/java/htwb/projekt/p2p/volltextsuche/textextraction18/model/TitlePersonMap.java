@@ -66,43 +66,6 @@ public class TitlePersonMap {
 		return outputMap;
 	}
 
-
-	public TitlePersonMap prettyUpEntries() {
-		TitlePersonMap outputMap = new TitlePersonMap();
-		TreeMap<String, ArrayList<Person>> inputMap = this.getMap();
-		for (Entry<String, ArrayList<Person>> entry : inputMap.entrySet()) {
-			String title = entry.getKey();
-			title = prettyUpTitle(title);
-			title = prettyUpText(title);
-			ArrayList<Person> personList = entry.getValue();
-			if(personList != null){
-				personList = checkPersonList(personList);
-			}
-			outputMap.addToMap(title, personList);
-		}
-		return outputMap;
-	}
-
-	private ArrayList<Person> checkPersonList(ArrayList<Person> personList) {
-		ArrayList<Person> removeList = new ArrayList<>();
-		for (Person p : personList){
-			if(isLowerCaseInAffiliation(p.getAffiliation())){
-				removeList.add(p);
-			}
-		}
-		personList.removeAll(removeList);
-		return personList;
-	}
-
-	private boolean isLowerCaseInAffiliation(String affiliation){
-		for (Character c : affiliation.toCharArray()){
-			if (Character.isLowerCase(c)){
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public int getSize() {
 		return this.getMap().size();
 	}
@@ -119,22 +82,5 @@ public class TitlePersonMap {
 			sb.append(System.lineSeparator());
 		}
 		return sb.toString();
-	}
-
-	private String prettyUpText(String text) {
-		text = text.replaceAll(RegexPattern.TWO_LINEBREAKS.pattern.pattern(), " ");
-		text = text.replaceAll("(.)-\n(.)", "$1$2");
-		text = text.replaceAll("(.)\n(.)", "$1 $2");
-		return text;
-	}
-	
-	private String prettyUpTitle(String title) {
-		if(RegexPattern.PRINTED_MATTER.pattern.matcher(title).find()) {
-			title = RegexPattern.PRINTED_MATTER.pattern.split(title)[0];
-		}
-		title = title.replaceAll(RegexPattern.TWO_LINEBREAKS.pattern.pattern(), " ");
-		title = title.replaceAll("(.)-\n(.)", "$1$2");
-		title = title.replaceAll("(.)\n(.)", "$1 $2");
-		return title;
 	}
 }

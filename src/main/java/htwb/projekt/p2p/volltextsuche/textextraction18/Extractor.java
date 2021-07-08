@@ -54,12 +54,11 @@ public class Extractor {
             Speech speech = new Speech(presidentTitleofSpeach, presidentName, presidentAffiliation, presidentSpeachDate, presidentSpeachText);
 
             TitlePersonMap map = search.getMap(extractedString);
-            map = map.prettyUpEntries();
             map = map.clearEmptyEntries();
             List<Speech> speechList = search.addToListFromMap(map, search.searchPresidentPostText(extractedString, presidentSpeachTextSplit), extractedXML.getDate());
             speechList.add(speech);
-            speechList = clearEmptyEntries(speechList);
-            speechCount = speechList.size();
+            speechList = clearList(speechList);
+            speechCount += speechList.size();
             JSONFileWriter.write(speechList, arg);
             try {
                 TimeUnit.SECONDS.sleep(3);
@@ -85,11 +84,34 @@ public class Extractor {
         return erg;
     }
 
-    private static List<Speech> clearEmptyEntries(List<Speech> speechList){
+    private static List<Speech> clearList(List<Speech> speechList) {
         List<Speech> removeList = new ArrayList<>();
-        for (Speech speech : speechList){
+        for (Speech speech : speechList) {
             if (speech.getText() == null) removeList.add(speech);
             if (speech.getText().isBlank()) removeList.add(speech);
+        }
+        speechList.removeAll(removeList);
+        speechList = removeDuplicates(speechList);
+        return speechList;
+    }
+
+    private static List<Speech> removeDuplicates(List<Speech> speechList) {
+        List<Speech> removeList = new ArrayList<>();
+        for (int i = 0; i < speechList.size(); i++) {
+            Speech speech = speechList.get(i);
+            for (int j = 0; j < speechList.size(); j++) {
+                Speech compare = speechList.get(j);
+                if (!removeList.contains(compare) && !removeList.contains(speech)) {
+                    if (speech.getId() != compare.getId()) {
+                        if (speech.getSpeaker().equalsIgnoreCase(compare.getSpeaker())) {
+                            if (speech.getText().equalsIgnoreCase(compare.getText())) {
+//                                LOG.info("duplicate found: " + speech.getSpeaker());
+                                removeList.add(compare);
+                            }
+                        }
+                    }
+                }
+            }
         }
         speechList.removeAll(removeList);
         return speechList;

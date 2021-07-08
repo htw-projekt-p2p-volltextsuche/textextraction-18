@@ -30,11 +30,13 @@ public class SpeechSearch {
     }
 
     public String[] getAgendaItems(String text) {
-        text = splitProtocol(text)[0];
-        String[] arr = RegexPattern.TOC_NAMES.pattern.split(text);
-        arr = Arrays.copyOfRange(arr, 0, arr.length - 1);
-//        arr = concatAgendaItems(arr);
-        return arr;
+        Matcher m = RegexPattern.OPENING.pattern.matcher(text);
+        if (m.find()) {
+            text = text.substring(0, m.start());
+            String[] arr = RegexPattern.TOC_NAMES.pattern.split(text);
+            arr = Arrays.copyOfRange(arr, 0, arr.length - 1);
+            return arr;
+        } else return null;
     }
 
     public List<String> getAgenda(String[] toc) {
@@ -51,65 +53,73 @@ public class SpeechSearch {
         int i, j;
         for (i = 0; i < toc.length; i++) {
             if (i + 1 < toc.length) {
-                // find title in table of content
-                if (RegexPattern.TITLE.pattern.matcher(toc[i]).find()) {
-                    // find next entry after title that is a person entry
-                    if (RegexPattern.PERSON.pattern.matcher(toc[i + 1]).find()) {
-                        if (!RegexPattern.TITLE.pattern.matcher(toc[i + 1]).find()) {
-                            // iterate from first entry that is a name until find new title
-                            for (j = i + 1; j < toc.length; j++) {
-                                if (RegexPattern.TITLE.pattern.matcher(toc[j]).find()) {
-                                    ArrayList<Person> personList = new ArrayList<>();
-                                    for (int k = i + 1; k < j; k++) {
-                                        if (!RegexPattern.TITLE.pattern.matcher(toc[k]).find()) {
-                                            if (RegexPattern.PERSON.pattern.matcher(toc[k]).find()) {
-                                                Person p = createPersonfromString(toc[k]);
-                                                if (p != null) personList.add(p);
+                Matcher m = RegexPattern.AGENDA.pattern.matcher(toc[i]);
+                if (m.find()) {
+                    ArrayList<Person> personList = new ArrayList<>();
+                    Matcher n = RegexPattern.PERSON.pattern.matcher(toc[i]);
+                    if (n.find()) {
+                        String title = toc[i].substring(0, m.end());
+                        title = addOrderString(title, i);
+                        String personString = toc[i].substring(m.end());
+                        Person p = createPersonfromString(personString);
+                        if (p != null) {
+                            personList.add(p);
+                        }
+                        for (j = i + 1; j < toc.length; j++) {
+                            if (RegexPattern.TITLE.pattern.matcher(toc[j]).find()) {
+                                for (int k = i + 1; k < j; k++) {
+                                    if (!RegexPattern.TITLE.pattern.matcher(toc[k]).find()) {
+                                        if (RegexPattern.PERSON.pattern.matcher(toc[k]).find()) {
+                                            Person person = createPersonfromString(toc[k]);
+                                            if (person != null) {
+                                                personList.add(person);
                                             }
                                         }
                                     }
-                                    String title = addOrderString(toc[i], i);
-                                    map.addToMap(title, personList);
-                                    i = j - 1;
-                                    j = toc.length - 1;
                                 }
+                                map.addToMap(title, personList);
+                                i = j - 1;
+                                j = toc.length - 1;
                             }
                         }
-                        // pattern "Fragestunde:"
-//					} else if (RegexPattern.QUESTION_TIME.pattern.matcher(toc[i]).find()) {
-
-                    } else if (RegexPattern.AGENDA.pattern.matcher(toc[i]).find()) {
+                    }
+                } else {
+                    m = RegexPattern.TITLE.pattern.matcher(toc[i]);
+                    if (m.find()) {
                         if (RegexPattern.PERSON.pattern.matcher(toc[i + 1]).find()) {
-                            for (j = i + 1; j < toc.length; j++) {
-                                if (RegexPattern.TITLE.pattern.matcher(toc[j]).find()) {
-                                    ArrayList<Person> personList = new ArrayList<>();
-                                    String personString = RegexPattern.AGENDA.pattern.split(toc[i])[1];
-                                    Person person = createPersonfromString(personString);
-                                    personList.add(person);
-                                    for (int k = i + 1; k < j; k++) {
-                                        if (!RegexPattern.TITLE.pattern.matcher(toc[k]).find()) {
-                                            if (RegexPattern.PERSON.pattern.matcher(toc[k]).find()) {
-                                                Person p = createPersonfromString(toc[k]);
-                                                if (p != null) personList.add(p);
+                            if (!RegexPattern.TITLE.pattern.matcher(toc[i + 1]).find()) {
+                                for (j = i + 1; j < toc.length; j++) {
+                                    if (RegexPattern.TITLE.pattern.matcher(toc[j]).find()) {
+                                        ArrayList<Person> personList = new ArrayList<>();
+                                        for (int k = i + 1; k < j; k++) {
+                                            if (!RegexPattern.TITLE.pattern.matcher(toc[k]).find()) {
+                                                if (RegexPattern.PERSON.pattern.matcher(toc[k]).find()) {
+                                                    Person p = createPersonfromString(toc[k]);
+                                                    if (p != null) {
+                                                        personList.add(p);
+                                                    }
+                                                }
                                             }
                                         }
+                                        String title = addOrderString(toc[i], i);
+                                        map.addToMap(title, personList);
+                                        i = j - 1;
+                                        j = toc.length - 1;
                                     }
-                                    String title = addOrderString(toc[i], i);
-                                    map.addToMap(title, personList);
-                                    i = j - 1;
-                                    j = toc.length - 1;
                                 }
                             }
                         }
-
                     }
                 }
+
             }
         }
         return map;
     }
 
+
     public Person createPersonfromString(String text) {
+//        LOG.info(text);
         String[] person = null;
         String affiliation = "";
         if (RegexPattern.PERSON_PARTY.pattern.matcher(text).find()) {
@@ -151,7 +161,6 @@ public class SpeechSearch {
     }
 
     private String getSpeechText(Person p, String text) {
-        LOG.info(p.getRegexFromPerson());
         Matcher start = p.getRegexFromPerson().matcher(text);
         if (start.find()) {
             String newText = p.getRegexFromPerson().split(text)[1];
@@ -201,14 +210,14 @@ public class SpeechSearch {
     }
 
     public String searchPresidentAffiliation(String text) {
-        String nameWithPresident = splitProtocol(text)[1].split(":")[0];
-        String[] strAr = RegexPattern.PRESIDENT.pattern.split(nameWithPresident);
         String affiliation = "";
-        if (strAr.length == 3) {
-            affiliation = strAr[0] + strAr[1];
-
-        } else if (strAr.length == 2) {
-            affiliation = strAr[0];
+        Matcher startRegex = RegexPattern.OPENING.pattern.matcher(text);
+        if (startRegex.find()) {
+            String subText = text.substring(startRegex.end());
+            Matcher endRegex = RegexPattern.PRESIDENT.pattern.matcher(subText);
+            if (endRegex.find()) {
+                affiliation = subText.substring(0, endRegex.end());
+            }
         }
         return affiliation;
     }
@@ -224,7 +233,7 @@ public class SpeechSearch {
         regex = regex.replaceAll("\\s\\s", " ");
         Matcher m = Pattern.compile(regex).matcher(text);
         String postText = "";
-        if (m.find()){
+        if (m.find()) {
             postText = text.substring(m.end());
         }
         return postText;
