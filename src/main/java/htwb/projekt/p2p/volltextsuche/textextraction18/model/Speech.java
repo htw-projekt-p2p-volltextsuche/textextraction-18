@@ -1,5 +1,6 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 
 public class Speech {
 
+    @JsonIgnore
     private UUID id;
 
     private String title;
