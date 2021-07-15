@@ -120,26 +120,63 @@ public class SpeechSearch {
 
     public Person createPersonfromString(String text) {
 //        LOG.info(text);
-        String[] person = null;
+        String name = "";
+        String city = null;
         String affiliation = "";
-        if (RegexPattern.PERSON_PARTY.pattern.matcher(text).find()) {
-            person = RegexPattern.PERSON_PARTY.pattern.split(text);
-            affiliation = person[1].split("(?<=(\\)))")[0];
+        Matcher special = Pattern.compile(".?\\(.+\\)\\s+\\(").matcher(text);
+        Matcher party = RegexPattern.PERSON_PARTY.pattern.matcher(text);
+        Matcher member = RegexPattern.PERSON_AFFILIATION.pattern.matcher(text);
+
+        if (special.find()) {
+            name = text.substring(0, special.start());
+            city = text.substring(special.start(), special.end() - 2).strip();
+            affiliation = text.substring(special.end() - 1);
+            special = Pattern.compile("\\)").matcher(affiliation);
+            if (special.find()) {
+                affiliation = affiliation.substring(0, special.start() + 1);
+            }
+            Matcher m = Pattern.compile("\\)\\s+\\.").matcher(affiliation);
+            if (m.find()) {
+                affiliation = affiliation.substring(0, m.start() + 1);
+            }
+            affiliation = affiliation.strip();
+        } else if (party.find()) {
+            name = text.substring(0, party.start());
+
+            affiliation = text.substring(party.start());
             affiliation = affiliation.replaceAll("(.)\\n(.)", "$1$2");
+            Matcher m = Pattern.compile("\\)\\s+\\.").matcher(affiliation);
+            if (m.find()) {
+                affiliation = affiliation.substring(0, m.start() + 1);
+            }
             affiliation = affiliation.strip();
 
-        } else if (RegexPattern.PERSON_AFFILIATION.pattern.matcher(text).find()) {
-            person = RegexPattern.PERSON_AFFILIATION.pattern.split(text);
-            affiliation = person[1].split("\\s+\\.+")[0];
+        } else if (member.find()) {
+            name = text.substring(0, member.start());
+            affiliation = text.substring(member.start());
             affiliation = affiliation.replaceAll("(.)\\n(.)", "$1$2");
+            affiliation = affiliation.substring(2);
+            Matcher parl = Pattern.compile("Parl\\s*\\.\\s").matcher(affiliation);
+            if (parl.find()) {
+                affiliation = affiliation.substring(parl.end());
+            }
+            Matcher m = Pattern.compile(".?\\s.?").matcher(affiliation);
+            if (m.find()) {
+                affiliation = affiliation.substring(0, m.start() + 1);
+            }
             affiliation = affiliation.strip();
         } else return null;
-        String name = (person[0] == null) ? "NULL" : person[0];
         Matcher matcher = Pattern.compile("I+").matcher(name);
         if (matcher.find()) {
             name = name.substring(name.lastIndexOf("I") + 2);
         }
-        return new Person(name, affiliation);
+        if (city == null) {
+//            LOG.info(name + " " + affiliation);
+            return new Person(name, affiliation);
+        } else {
+//            LOG.info(name + " " + city + " " + affiliation);
+            return new Person(name, city, affiliation);
+        }
 
     }
 

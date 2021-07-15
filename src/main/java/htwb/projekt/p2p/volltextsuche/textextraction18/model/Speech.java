@@ -33,7 +33,7 @@ public class Speech {
         this.id = UUID.randomUUID();
         this.title = reformatTitle(title);
         this.speaker = speaker;
-        this.affiliation = affiliation;
+        this.affiliation = prettyUpAffiliation(affiliation);
         this.date = formatDateToISO8601String(date);
         this.text = prettyUpText(text);
     }
@@ -109,19 +109,32 @@ public class Speech {
         return text;
     }
 
+    private String prettyUpAffiliation(String text) {
+        text = prettyUpText(text);
+        Matcher m = Pattern.compile("\\(.+\\)").matcher(text);
+        if (m.find()) {
+            text = text.substring(1, text.length() - 1);
+        }
+        return text;
+    }
+
     private String reformatTitle(String title) {
         title = prettyUpText(title);
-        Matcher o = Pattern.compile("Eröffnungsrede").matcher(title);
-        if (!o.find()) {
+        Matcher m = Pattern.compile("Eröffnungsrede").matcher(title);
+        if (!m.find()) {
             title = title.substring(4);
         }
-        Matcher m = Pattern.compile(":").matcher(title);
+        m = Pattern.compile("punkt\\s\\d+:").matcher(title);
         if (m.find()) {
             title = title.substring(m.end());
         }
-        Matcher n = Pattern.compile("\\(Drucksache").matcher(title);
-        if (n.find()) {
-            title = title.substring(0, n.start());
+        m = Pattern.compile("\\s\\.\\s").matcher(title);
+        if (m.find()) {
+            title = title.substring(0, m.start());
+        }
+        m = Pattern.compile("Drucksache").matcher(title);
+        if (m.find()) {
+            title = title.substring(0, m.start());
         }
         return title;
     }

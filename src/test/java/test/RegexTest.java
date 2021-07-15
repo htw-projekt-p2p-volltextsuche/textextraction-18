@@ -358,4 +358,66 @@ class RegexTest {
         } else LOG.log(Level.INFO, "NOPE");
     }
 
+    @Test
+    void specialNameAndAffilationTest(){
+        String nameAndAffiliation = " Carsten Schneider (Erfurt) (SPD)  . . . . . . . . . 948";
+        String name = "";
+        String affiliation = "";
+        Matcher m = Pattern.compile(".?\\(.+\\)\\s+\\(").matcher(nameAndAffiliation);
+        if(m.find()){
+            name = nameAndAffiliation.substring(0,m.start());
+            affiliation = nameAndAffiliation.substring(m.end()-1);
+            m = Pattern.compile("\\)").matcher(affiliation);
+            if (m.find()){
+                affiliation = affiliation.substring(0,m.start()-1);
+                affiliation.strip();
+            }
+        }
+    }
+
+    @Test
+    void parlTest(){
+        String person = "Ulrich Kelber, Parl. Staatssekretär \n" +
+                "BMJV  . . . . . . . . . . . . . . . . . . . . . . . . . . . 9648 D";
+        String name = "";
+        String city = null;
+        String affiliation = "";
+        Matcher special = Pattern.compile(".?\\(.+\\)\\s+\\(").matcher(person);
+        Matcher party = RegexPattern.PERSON_PARTY.pattern.matcher(person);
+        Matcher member = RegexPattern.PERSON_AFFILIATION.pattern.matcher(person);
+        if (member.find()) {
+            name = person.substring(0, member.start());
+            affiliation = person.substring(member.start());
+            affiliation = affiliation.replaceAll("(.)\\n(.)", "$1$2");
+            affiliation = affiliation.substring(2);
+//            LOG.info(affiliation);
+            Matcher parl = Pattern.compile("Parl\\.\\s").matcher(affiliation);
+            if (parl.find()) {
+                affiliation = affiliation.substring(parl.end());
+                LOG.info(affiliation);
+            }
+            Matcher m = Pattern.compile(".?\\s+.?").matcher(affiliation);
+            if (m.find()) {
+                affiliation = affiliation.substring(0, m.start()+1);
+//                LOG.info(affiliation);
+            }
+            affiliation = affiliation.strip();
+        }
+//        LOG.info(name + " " + affiliation);
+        assert name.equals("Ulrich Kelber");
+//        assert affiliation.equals("Staatssekretär");
+    }
+
+    @Test
+    void prettyUpAffilationTest(){
+        String spd = "(SPD)";
+        Matcher m = Pattern.compile("\\(.+\\)").matcher(spd);
+        if (m.find()){
+//            LOG.info(spd);
+            spd = spd.substring(1,spd.length()-1);
+        }
+//        LOG.info(spd);
+        assert spd.equals("SPD");
+    }
+
 }

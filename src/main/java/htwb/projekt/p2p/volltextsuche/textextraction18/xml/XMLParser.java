@@ -1,6 +1,9 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.xml;
 
+import htwb.projekt.p2p.volltextsuche.textextraction18.Extractor;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -12,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class XMLParser {
+	private static final Logger LOG = LogManager.getLogger(XMLParser.class);
 
 	private static Document stringFilenameToDoc(String filename) {
 		try {
