@@ -1,0 +1,53 @@
+%Tabellenlinie
+\newcommand\btrule[1]{\specialrule{#1}{0pt}{0pt}}
+
+%tabularx Gimmick
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % linksbündig mit Breitenangabe
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}} % rechtsbündig mit Breitenangabe
+
+%Tabellenheader White & Bold
+\newcommand{\whitebf}[1]{\color{white}\textbf{\large#1}}
+
+%Test in Anführungszeichen (german quote)
+\newcommand{\gequote}[1]{\glqq #1\grqq{}}
+
+%Auch bei chapter Header und Footer
+\renewcommand*\chapterpagestyle{useheadings}
+
+%Chapter Abstände
+\renewcommand*\chapterheadstartvskip{\vspace*{-2.5\topskip}}
+\renewcommand*\chapterheadendvskip{%
+	\vspace*{1\baselineskip plus .1\baselineskip minus .167\baselineskip}}
+
+
+%----------------------------------------------------------------------------------------
+% 						Helping Commands
+%
+% \renewcommand{\arraystretch}{1.2} 	<- Tabelle strecken um 1.2 Punkte
+% \rowcolors{1}{black!10}{black!1}		<- Tabellenzeilen haben verschiedene Farben
+%
+%----------------------------------------------------------------------------------------
+
+%%-----------------------------------------------------------------------------------
+\newcommand{\Todo}[1]{\todo[inline=true, linecolor=red,backgroundcolor=red!25,bordercolor=red]{#1}}
+\newcommand{\Info}[1]{\todo[inline=true, linecolor=green,backgroundcolor=green!25,bordercolor=green]{#1}}
+%%-----------------------------------------------------------------------------------
+
+\newcommand{\tablehead}[2]{\rowcolor{magicmint}\multicolumn{#1}{|c|}{#2}}
+\newcommand{\foreign}[1]{\dashuline{#1}}
+
+\newcommand{\iitem}[1]{\item[...]\textit{#1}}
+\newcommand{\iuitem}[1]{\item \textit{\uline{#1}}}
+
+\newcommand{\mn}[2]{%
+	\tikz [remember picture, baseline = (#1.base)]
+	\node [inner sep = 0pt, outer sep = 2mm] (#1)
+	{#2};
+}
+	
+\newcommand{\cul}[3][black]{\xpatchcmd{\uline}
+	{\bgroup}
+	{\bgroup\def\ULthickness{2pt}}
+	{}{}
+	{\color{#2}\uline{{\color{#1}#3}}}} %<- Farbig unterschrichen und farbiger Text

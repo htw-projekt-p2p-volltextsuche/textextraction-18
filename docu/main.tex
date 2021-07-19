@@ -1,0 +1,71 @@
+\documentclass[bibliography=totoc, a4paper, 12pt]{scrreprt}
+\usepackage[a4paper,left=2cm,right=2cm,top=1.5cm,bottom=1.5cm]{geometry}
+\geometry{headheight=0.5cm, headsep=1.5cm, includehead}
+\geometry{footskip=1.5cm ,includefoot}
+\usepackage[ngerman]{babel}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{graphicx} 
+\usepackage[headsepline,footsepline, automark, autooneside=false, markcase=used]{scrlayer-scrpage}
+\automark{chapter}
+\usepackage[toc,page]{appendix}
+\usepackage{blindtext}
+\usepackage{acronym} % Abkürzungsverzichniss erstellen
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{ulem}
+\usepackage[table]{xcolor}
+\usepackage{xcolor,colortbl}
+\usepackage{makecell} %for bigger lines in table
+\usepackage{soul}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{changepage}
+\usepackage{ragged2e}
+\usepackage{setspace} %Zeilenabstand
+\usepackage{todonotes}
+\usepackage{lineno}
+\usepackage{amsmath} %Mathe to use equation
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata,positioning}
+\usepackage{pgfplots}
+\usepackage{pdfpages}
+\usepackage{makeidx} % fuer Stichwortverzeichnis 
+\makeindex
+\usepackage[hidelinks, pdfborder={0 0 0}, breaklinks]{hyperref}
+%%-----------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%						BibLaTex
+\usepackage[backend=bibtex, style=numeric , citestyle=numeric , dateabbrev=false, sorting=none]{biblatex}
+\addbibresource{sources.bib}
+\DeclareFieldFormat{booktitle}{\newline{\textit{#1}}}%
+\DeclareFieldFormat{howpublished}{\newline #1}%
+\DeclareFieldFormat[inproceedings,standard,report]{title}{\newline #1}% Wenn der Titel zu lang wird kann mit, hier weiter Arten hinzufügen
+\DeclareFieldFormat[misc]{note}{\newline #1}%
+
+\renewcommand*{\labelnamepunct}{\addcolon\addspace}     % Semikollon nach Autor
+\renewcommand*{\newunitpunct}{\addsemicolon\space} 		% Trennzeichen Semikolon
+%----------------------------------------------------------------------------------------
+
+
+\usepackage{listings}
+\usepackage{color}
+
+\author{author}
+
+\ihead{Peer-to-Peer Volltextsuche}
+\chead{Textextraktion-18}
+\ohead{\headmark}
+\cfoot{\\ Seite \pagemark}
+
+\begin{document}
+	\input{syntax_highlighting.tex}
+	\input{commands.tex}
+	\input{approach.tex}
+	\input{solution.tex}
+	\input{problems.tex}
+	\input{conclusion.tex}
+\end{document}
