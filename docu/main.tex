@@ -42,7 +42,7 @@
 \usepackage[backend=bibtex, style=numeric , citestyle=numeric , dateabbrev=false, sorting=none]{biblatex}
 \addbibresource{sources.bib}
 \DeclareFieldFormat{booktitle}{\newline{\textit{#1}}}%
-\DeclareFieldFormat{howpublished}{\newline #1}%
+\DeclareFieldFormat{url}{\newline URL: \url{#1}}%
 \DeclareFieldFormat[inproceedings,standard,report]{title}{\newline #1}% Wenn der Titel zu lang wird kann mit, hier weiter Arten hinzufügen
 \DeclareFieldFormat[misc]{note}{\newline #1}%
 
@@ -68,4 +68,6 @@
 	\input{solution.tex}
 	\input{problems.tex}
 	\input{conclusion.tex}
+	
+	\input{sources.tex}
 \end{document}
