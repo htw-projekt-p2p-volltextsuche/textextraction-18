@@ -35,10 +35,10 @@ Darüber hinaus beginnt jede Rede mit dem Namen des Sprechenden und dessen Zugeh
 Es entwickelte sich die Idee anhand der Analyse reguläre Ausdrücke zu entwickeln die innerhalb des Textblockes passten (matchen). Für die einzelnen Teile der Analyse wurde dies wie folgt realisiert:
 \begin{table}[h]
 	\begin{tabularx}{\linewidth}{l X}
-		\textbf{Analyseteil} & \textbf{regulärer Ausdruck in der Aufzählungsklasse}\\
-		Inhaltsverzeichnis & \lstinline|TOC_NAMES(Pattern.compile("\\d\\s[A-Z]\\n+"))|\\
-		Eröffnungsrede & \lstinline|OPENING(Pattern.compile("(Uhr(\\r\|\\n\|(\\n)*)(?=(Vize\|Alters)?(P\|p)räsident(en\|in\|innen)?))"))|\\
-		Redner & \lstinline|BREAKINGPOINT(Pattern.compile("(.+,\\s.+minister.+\\r*\\n*.+:\\n)\|((.+p\|P)räsident.+:\\n)\|(.+\\(.+\\):\\n)\|(.+\\(.+/.+-\\r*\\n*.+\\):\\n)\|(.+\\(.+\\r*\\n*.+\\):\\n)\|(.+,.+kanzler.+:\\n)"))|\\
+		\textbf{Analyseteil} & \textbf{regulärer Ausdruck}\\
+		Inhaltsverzeichnis & \lstinline|TOC_NAMES = "\\d\\s[A-Z]\\n+"| \\
+		Eröffnungsrede & \lstinline|OPENING = "(Uhr(\\r\|\\n\|(\\n)*)(?=(Vize\|Alters)?(P\|p)räsident(en\|in\|innen)?))"|\\
+		Redner & \lstinline|BREAKINGPOINT = "(.+,\\s.+minister.+\\r*\\n*.+:\\n)\|((.+p\|P)räsident.+:\\n)\|(.+\\(.+\\):\\n)\|(.+\\(.+/.+-\\r*\\n*.+\\):\\n)\|(.+\\(.+\\r*\\n*.+\\):\\n)\|(.+,.+kanzler.+:\\n)"|\\
 	\end{tabularx}
 \end{table}
 
@@ -54,5 +54,3 @@ Das zu erstellende Programm sollte nun grob wie folgt ablaufen:
 	\item Das Ende jeder Rede ist der Beginn einer neuen und kann mit dem \lstinline|BREAKINGPOINT| gefunden werden.
 	\item Wurden alle Reden des Dokumentes gefunden sollen sie als JSON Datei gespeichert werden.
 \end{enumerate}
-
-\noindent im GitHub erreichbar unter:\\ \url{https://github.com/htw-projekt-p2p-volltextsuche/textextraction-18}
