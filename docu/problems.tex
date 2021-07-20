@@ -4,12 +4,12 @@ Die meisten Probleme entstanden bei der Annahme es gäbe Konsistenz in der Forma
 Erste Probleme tauchten noch vor der eigentlichen Extraktion auf, nämlich beim Einlesen der Plenarprotokolle in XML Form auf.
 \begin{figure}[h]
 	\begin{minipage}{.48\linewidth}
-		\includegraphics[width=\linewidth]{img/withdoctype.pdf}
 		\caption*{Mit Angabe des Dokumententyps}
+		\includegraphics[width=\linewidth]{img/withdoctype.pdf}		
 	\end{minipage}\hfill
 	\begin{minipage}{.48\linewidth}
-		\includegraphics[width=\linewidth]{img/withoutdoctype.pdf}
 		\caption*{Ohne Angabe des Dokumententyps}
+		\includegraphics[width=\linewidth]{img/withoutdoctype.pdf}
 	\end{minipage}
 	\caption{Unterschiede in der Angabe des Dokumententyps}
 	\label{img:doctype}
@@ -31,6 +31,44 @@ In der 1. - 14. Wahllegislaturperiode wurden den XML-Dateien ein Dokumententyp a
 \noindent
 Durch weitere Testdurchläufe wurde ein deutlicher Unterschied in den Inhaltsverzeichniseinträgen gefunden (siehe \autoref{img:diffenzeToc}), womit die Benutzung des trennenden regulären Ausdruckes nicht für alle Dokumente möglich war.  Des Weiteren ist die scheinbare Gemeinsamkeit der Punkte nicht in alle Dokumenten gegeben.\\
 
+\newpage
+\section{Benamung der Zugehörigkeit}
+Auch bei Benamung von Zugehörigkeiten gab es viele Unterschiede in der Schreibweise. Bestes Beispiel ist hierfür die Partei \gequote{BÜNDNIS 90/DIE GRÜNEN}. Allein für die unterschiedlichen Schreibweisen dieser Partei:
+\begin{multicols}{2}
+	\begin{itemize}
+		\item BÜNDNIS 90/DIE GRÜNEN
+		\item BÜNDNIS 90/\\
+		DIE GRÜNEN
+		\columnbreak
+		\item BÜNDNIS 90/\\
+		
+		DIE GRÜNEN
+		\item BÜNDNIS 90/DIE GRÜ-\\
+		NEN	
+	\end{itemize}
+\end{multicols}
+mussten drei reguläre Ausdrücke abgeändert werden damit sie funktionieren.
 
-\section{Parteibenamung}
-\Info{add hear}
+\section{Personensuche im Inhaltsverzeichnis}
+Der entscheidende Punkt bei der Extraktion war die Suche im Inhaltsverzeichnis nach Personen. Innerhalb der Suche selbst gab es aber Unterschiede die separat abgearbeitet werden mussten.\\
+Die Suche wurde mit der Methode \lstinline|createMap()| in der \lstinline|SpeechSearch|-Klasse implementiert. Der wörtlich Ablauf der Methode sieht grob wie folgt aus:
+\begin{itemize}[leftmargin=3.5em]
+	\item[\textbf{Wenn}] es einen Titel \gequote{Geschäftsordnung} gibt,
+	\begin{itemize}
+		\item[\textbf{dann}] ist im selben Eintrag auch der erste Name enthalten und muss gespeichert werden
+		\item[] danach ist jeder Eintrag ein Name,
+		\item[] bis zum Eintrag der einen Titel enthält.
+		\item[] nächster Schleifendurchlauf ab dem Titel.
+	\end{itemize}
+	\item[\textbf{sonst}] ,
+	\begin{itemize}
+		\item[\textbf{wenn}] nach einem Titel ein Name folgt
+		\begin{itemize}
+			\item[\textbf{dann}] ist jeder nachfolgende Eintrag ein Name und muss gespeichert werden,
+			\item[] bis ein Eintrag einen Titel enthält
+			\item[] nächster Schleifendurchlauf ab dem Titel.
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+Wurden zu jedem Titel die Redner gefunden, werden diese Einträge in einer \lstinline|Map| gespeichert.
+

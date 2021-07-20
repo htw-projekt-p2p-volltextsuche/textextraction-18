@@ -1,1 +1,10 @@
 \chapter{Schlussbetrachtung}
+Die grundlegende Anforderung alle Plenarprotokolle der 1.-18. Wahllegislaturperiode wurde in einem Sprint Review Meeting abgeändert, sodass vorrangig die Plenarprotokolle der 18. Wahllegislaturperiode extrahiert werden sollten.
+Dieses Ziel wurde erreicht, allerdings gibt es Abstriche in Bezug auf die Form der einzelnen Bestandteile der extrahierten Reden im JSON Format.\\
+
+\section{split versus substring}
+In den ersten Versuchen wurden Strings, mithilfe von regulären Ausdrücken, in mindestens zwei Teile zerlegt. Dies hat allerdings zur Folge, dass nach mehreren solcher Zerlegungsprozesse ein Urzustand fast nicht mehr erreicht werden konnte. Daraus folgte die Benutzung von \lstinline|substring| welcher den Teilstring von Position X-Y zurückgibt ohne dessen Original zu überschreiben.
+
+\section{Fazit}
+Prinzipiell wurde innerhalb des Projektes eine spezifizierte KI geschrieben, welche Reden aus der 18. Wahllegislaturperiode anhand der frei zugänglichen XML-Dateien\cite{protokolle} verarbeitet und in JSON-Dateien umwandelt. Das Ergebnis ist verwertbar, kann aber noch verbessert werden in Bezug auf Performanz und Formatierung.\\
+Alles in allem wurde das Projektziel erreicht.
