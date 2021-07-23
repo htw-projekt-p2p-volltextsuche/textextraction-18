@@ -31,8 +31,4 @@ hs_err_pid*
 src/main/resources/pp18-data/
 target/**
 !textextraction-18.jar
-/.idea/
-/.settings/
-.classpath
-.project
 
