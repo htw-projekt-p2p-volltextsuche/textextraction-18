@@ -28,12 +28,11 @@ hs_err_pid*
 ../*.json
 [0-9]*.json
 
-# inMemory DB
-speech.json.tmp/
-speech.tmp/
-/speech.properties
-/speech.script
-
 src/main/resources/pp18-data/
 target/**
 !textextraction-18.jar
+/.idea/
+/.settings/
+.classpath
+.project
+
