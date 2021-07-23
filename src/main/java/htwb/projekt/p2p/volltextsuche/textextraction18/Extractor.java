@@ -1,19 +1,20 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import htwb.projekt.p2p.volltextsuche.textextraction18.misc.JSONFileWriter;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speech;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.TitlePersonMap;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
 import htwb.projekt.p2p.volltextsuche.textextraction18.search.SpeechSearch;
 import htwb.projekt.p2p.volltextsuche.textextraction18.xml.XMLParser;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 /**
  * Main class to extracted speeches from given xml files

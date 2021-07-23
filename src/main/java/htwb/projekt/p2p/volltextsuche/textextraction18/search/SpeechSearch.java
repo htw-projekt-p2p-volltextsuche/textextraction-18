@@ -1,16 +1,21 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.search;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Person;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speech;
 import htwb.projekt.p2p.volltextsuche.textextraction18.model.TitlePersonMap;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
-import java.time.LocalDate;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * class to search all speeches in a text block

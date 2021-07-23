@@ -1,18 +1,20 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.misc;
 
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import htwb.projekt.p2p.volltextsuche.textextraction18.Extractor;
-import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speech;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import htwb.projekt.p2p.volltextsuche.textextraction18.Extractor;
+import htwb.projekt.p2p.volltextsuche.textextraction18.model.Speech;
 
 /**
  * write json files
