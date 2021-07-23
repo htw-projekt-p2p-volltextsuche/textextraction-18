@@ -4,6 +4,12 @@ import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
 
 import java.util.regex.Pattern;
 
+/**
+ * model class to represent a person of the "Bundestag" with name and affiliation
+ * 
+ * @author SteSad
+ *
+ */
 public class Person {
     private String name;
     private String city;
@@ -47,6 +53,10 @@ public class Person {
         this.city = city;
     }
 
+    /**
+     * generate a regex from a person to find its speech
+     * @return {@link Pattern}
+     */
     public Pattern getRegexFromPerson() {
         String nameRegex = this.getName();
         String affilationRegex;

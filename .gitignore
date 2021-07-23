@@ -35,5 +35,5 @@ speech.tmp/
 /speech.script
 
 src/main/resources/pp18-data/
-
-target/
+target/**
+!textextraction-18.jar

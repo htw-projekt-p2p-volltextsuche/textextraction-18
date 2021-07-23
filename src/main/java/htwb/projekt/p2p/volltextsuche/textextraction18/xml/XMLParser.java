@@ -1,19 +1,26 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.xml;
 
-import htwb.projekt.p2p.volltextsuche.textextraction18.Extractor;
-import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
+import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import htwb.projekt.p2p.volltextsuche.textextraction18.model.XMLExtract;
 
+/**
+ * parse a xml file in the {@link XMLExtract} model
+ * 
+ * @author SteSad
+ *
+ */
 public class XMLParser {
 	private static final Logger LOG = LogManager.getLogger(XMLParser.class);
 

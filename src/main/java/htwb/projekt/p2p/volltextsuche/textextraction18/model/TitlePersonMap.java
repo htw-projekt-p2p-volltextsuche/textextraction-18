@@ -1,13 +1,14 @@
 package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 
-import htwb.projekt.p2p.volltextsuche.textextraction18.enums.RegexPattern;
-
 import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+
 /**
- * @author stefa
+ * model class to temporary persists all persons of a title
+ * 
+ * @author SteSad
  *
  */
 public class TitlePersonMap {
@@ -53,6 +54,10 @@ public class TitlePersonMap {
 		return sb.toString();
 	}
 	
+	/**
+	 * remove all entered title, if they have no persons
+	 * @return
+	 */
 	public TitlePersonMap clearEmptyEntries() {
 		TitlePersonMap outputMap = new TitlePersonMap();
 		TreeMap<String, ArrayList<Person>> inputMap = this.getMap();

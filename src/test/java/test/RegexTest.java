@@ -47,17 +47,6 @@ class RegexTest {
             + "Resolution 1996 (2011) des Sicherheitsrates\r\n" + "der Vereinten Nationen vom 8. Juli 2011\r\n"
             + "und Folgeresolutionen, zuletzt 2109 (2013)\r\n" + "vom 11. Juli 2013\r\n"
             + "(Drucksache 18/71) . . . . . . . . . . . . . . . . . . . . . 80 C";
-    private String partyOrAffiliation = "Mündliche Frage 1\r\n" + "Lisa Paus (BÜNDNIS 90/\r\n" + "\r\n"
-            + "DIE GRÜNEN)\r\n" + "Einfluss des Staatsministers a. D. Eckart\r\n"
-            + "von Klaeden auf Entscheidungen im Be-\r\n" + "reich Elektromobilität\r\n" + "Antwort\r\n"
-            + "Dr. Maria Böhmer, Staatsministerin \r\n" + "\r\n"
-            + "BK . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 119 D\r\n" + "Zusatzfrage\r\n"
-            + "Lisa Paus (BÜNDNIS 90/\r\n" + "\r\n" + "DIE GRÜNEN) . . . . . . . . . . . . . . . . . . . . . 119 D\r\n"
-            + "\r\n" + "Mündliche Frage 2\r\n" + "Lisa Paus (BÜNDNIS 90/\r\n" + "\r\n" + "DIE GRÜNEN)\r\n"
-            + "Etwaige Loyalitätskonflikte des Staats-\r\n" + "ministers a. D. Eckart von Klaeden im\r\n"
-            + "dienstlichen Kontakt zu der Investment-\r\n" + "bank Goldman Sachs\r\n" + "Antwort\r\n"
-            + "Dr. Maria Böhmer, Staatsministerin \r\n" + "\r\n"
-            + "BK . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 120 A\r\n" + "Zusatzfragen";
 
     private String question = "Dr. Matthias Miersch (SPD) . . . . . . . . . . . . . . 117 D\r\n" + "\r\n"
             + "Josef Göppel (CDU/CSU)  . . . . . . . . . . . . . . . 118 C\r\n" + "Tagesordnungspunkt 6:\r\n"

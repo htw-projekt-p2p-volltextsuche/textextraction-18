@@ -14,61 +14,85 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * write json files
+ * 
+ * @author SteSad
+ *
+ */
 public class JSONFileWriter {
-    private static final Logger LOG = LogManager.getLogger(Extractor.class);
-    private static FileWriter writer;
+	private static final Logger LOG = LogManager.getLogger(Extractor.class);
+	private static FileWriter writer;
 
-    public static void write(List<Speech> speechList, String name) {
-        JsonMapper mapper = new JsonMapper();
-        name = fileWithDirectoryToFileName(name);
-        File jsonFile = new File(name);
-        if (!jsonFile.exists() && !jsonFile.isDirectory()) {
-            try {
-                jsonFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            jsonFile.delete();
-            try {
-                jsonFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        ArrayNode node = createArrayNodeFromList(speechList);
-        try {
-            writer = new FileWriter(jsonFile);
-            writer.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                LOG.debug("wrote File: " + name);
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+	/**
+	 * writes a given {@link List}<{@link Speech}> in a json file, that has the
+	 * given name
+	 * 
+	 * @param speechList
+	 * @param name
+	 */
+	public static void write(List<Speech> speechList, String name) {
+		JsonMapper mapper = new JsonMapper();
+		name = fileWithDirectoryToFileName(name);
+		File jsonFile = new File(name);
+		if (!jsonFile.exists() && !jsonFile.isDirectory()) {
+			try {
+				jsonFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			jsonFile.delete();
+			try {
+				jsonFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		ArrayNode node = createArrayNodeFromList(speechList);
+		try {
+			writer = new FileWriter(jsonFile);
+			writer.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				LOG.debug("wrote File: " + name);
+				writer.flush();
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
-    }
+	}
 
-    private static String fileWithDirectoryToFileName(String fileName) {
-        String subString = "";
-        if (fileName.contains("/")) {
-            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-        }
-        Matcher m = Pattern.compile("\\.xml").matcher(fileName);
-        if (m.find()) {
-            subString = fileName.substring(0, m.start());
-        }
+	/**
+	 * reduce the full classified file name in a simple file name
+	 * 
+	 * @param fileName
+	 * @return String - file name
+	 */
+	private static String fileWithDirectoryToFileName(String fileName) {
+		String subString = "";
+		if (fileName.contains("/")) {
+			fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+		}
+		Matcher m = Pattern.compile("\\.xml").matcher(fileName);
+		if (m.find()) {
+			subString = fileName.substring(0, m.start());
+		}
 
-        return subString + ".json";
-    }
+		return subString + ".json";
+	}
 
-    private static ArrayNode createArrayNodeFromList(List<Speech> speechList) {
-        JsonMapper mapper = new JsonMapper();
-        return mapper.convertValue(speechList, ArrayNode.class);
-    }
+	/**
+	 * create json object from given {@link List}<{@link Speech}> 
+	 * @param speechList
+	 * @return {@link ArrayNode}
+	 */
+	private static ArrayNode createArrayNodeFromList(List<Speech> speechList) {
+		JsonMapper mapper = new JsonMapper();
+		return mapper.convertValue(speechList, ArrayNode.class);
+	}
 }

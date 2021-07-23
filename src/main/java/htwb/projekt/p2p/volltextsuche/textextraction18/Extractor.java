@@ -15,6 +15,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+/**
+ * Main class to extracted speeches from given xml files
+ * 
+ * @author SteSad
+ *
+ */
 public class Extractor {
     private static final Logger LOG = LogManager.getLogger(Extractor.class);
 
@@ -24,11 +30,13 @@ public class Extractor {
         }
         int speechCount = 0;
         int fileCount = 0;
-        System.out.println(outArgs(args));
+        // to see all inputs
+//        System.out.println(outArgs(args));
         SpeechSearch search = new SpeechSearch();
         XMLExtract extractedXML = null;
         String extractedString = "";
         for (String arg : args) {
+            // ignore the first protocol of period, because their are only oaths
             if (Pattern.compile("001\\.xml").matcher(arg).find()) {
                 continue;
             }
@@ -44,6 +52,7 @@ public class Extractor {
                 LOG.warn("failure occured, " + arg + " will skip");
                 continue;
             }
+            // first extract the president opening speech
             String presidentTitleofSpeach = "Eröffnungsrede";
             String presidentName = search.searchPresidentName(extractedString);
             String presidentAffiliation = search.searchPresidentAffiliation(extractedString.strip());
@@ -53,20 +62,25 @@ public class Extractor {
 
             Speech speech = new Speech(presidentTitleofSpeach, presidentName, presidentAffiliation, presidentSpeachDate, presidentSpeachText);
 
+            //get all speeches
             TitlePersonMap map = search.getMap(extractedString);
             map = map.clearEmptyEntries();
             List<Speech> speechList = search.addToListFromMap(map, search.searchPresidentPostText(extractedString, presidentSpeachTextSplit), extractedXML.getDate());
             speechList.add(speech);
             speechList = clearList(speechList);
             speechCount += speechList.size();
+
+            // write the list of speeches to a json file
             JSONFileWriter.write(speechList, arg);
             try {
+                // sleeper for some failures, their are occured on instantly loop processing
                 TimeUnit.SECONDS.sleep(3);
             } catch (InterruptedException e) {
                 LOG.error("Scan...");
             }
             fileCount++;
         }
+        // to realize the progress
         System.out.println("Finished, extracted " + speechCount + " Speeches in " + fileCount + " Files");
     }
 
@@ -84,6 +98,12 @@ public class Extractor {
         return erg;
     }
 
+    /**
+     * clears a {@link List} of {@link Speech}, if the text is null or blank
+     * 
+     * @param speechList
+     * @return cleared {@link List}<{@link Speech}>
+     */
     private static List<Speech> clearList(List<Speech> speechList) {
         List<Speech> removeList = new ArrayList<>();
         for (Speech speech : speechList) {
@@ -95,6 +115,11 @@ public class Extractor {
         return speechList;
     }
 
+    /**
+     * 
+     * @param speechList
+     * @return
+     */
     private static List<Speech> removeDuplicates(List<Speech> speechList) {
         List<Speech> removeList = new ArrayList<>();
         for (int i = 0; i < speechList.size(); i++) {

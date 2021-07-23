@@ -2,6 +2,12 @@ package htwb.projekt.p2p.volltextsuche.textextraction18.model;
 
 import java.time.LocalDate;
 
+/**
+ * model class to temporary persists entries of the important xml tags
+ * 
+ * @author SteSad
+ *
+ */
 public class XMLExtract {
 
 	private String period;

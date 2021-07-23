@@ -11,6 +11,12 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * model class to persists a speech
+ * 
+ * @author SteSad
+ *
+ */
 public class Speech {
 
     @JsonIgnore
@@ -118,6 +124,12 @@ public class Speech {
         return text;
     }
 
+    /**
+     * makes title prettier 
+     * TODO not all titles fit, check for deviations
+     * @param title
+     * @return pretty up title
+     */
     private String reformatTitle(String title) {
         title = prettyUpText(title);
         Matcher m = Pattern.compile("Eröffnungsrede").matcher(title);
