@@ -54,5 +54,5 @@ If the speakers were found for each title, these entries are saved in a map.
 ***
 
 ### Execute
-<code>java -jar textextraction-18.jar</code><br>
-and all documents to be extracted as transfer parameters in the console
+<code>java -jar textextraction-18.jar \<plenary minutes xml file\></code><br>
+creates a json file from the plenary minutes with all entered speeches
